@@ -1,0 +1,11 @@
+npm-debug.log
+.DS_Store
+*node_modules*
+/src/php/interpreter/php-5.6.30-Win32-VC11-x86/*
+/src/php/interpreter/php-5.6.30/*
+/src/php/interpreter/php/*
+/src/php/interpreter/php-5.6.30.tar.bz2
+/src/php/interpreter/php-5.6.30-Win32-VC11-x86.zip
+*.idea*
+/test/trashes/*
+*.output/*

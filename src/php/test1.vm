@@ -1,0 +1,1 @@
+My name is ${name}. I'm a #if($gender == "male")boy#{else}girl#end.

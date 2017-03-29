@@ -1,0 +1,20 @@
+#*
+#foreach ($item in ${list})
+    $item.name
+#end
+*#
+#set($a={"b":2})
+#if($a.b)
+$a.b
+#elseif($a.c.d)
+$a.c.d
+#if($a.c.d)
+wtf
+#end
+#end
+#foreach($i in $m)
+$foreach.count: $i
+#foreach($j in $i)
+$foreach.count: $j
+#end
+#end

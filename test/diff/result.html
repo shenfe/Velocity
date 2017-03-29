@@ -1,0 +1,500 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8">        <title>[browser-diff](https://github.com/bgrins/browser-diff)</title>        <style>        html, body, textarea { font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, sans-serif; line-height: 1.5; }        .result { border: 1px #ccc solid; padding: 10px; }        .case-diff { position: relative; max-width: 666px; margin: 0 auto; }        .case-diff textarea { box-sizing: border-box; width: 50% !important; min-height: 200px; }        .toggle { position: absolute; top: 0; right: 0; }        </style>        <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>        <script type="text/javascript" src="js/diff-match-patch.js"></script>        <script type="text/javascript" src="js/browser-diff.js"></script>        </head><body><div class="case-diff"><h3 class="title">app1</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">[1, 2, 3]
+</textarea><textarea class="source2" style="display:none">[1, 2, 3]
+
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">app2</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">1
+2</textarea><textarea class="source2" style="display:none">1
+
+2</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">comment</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">
+
+1
+
+</textarea><textarea class="source2" style="display:none">
+
+
+
+1
+
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">escape1</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none"><div>$!foo</div>
+<div>$!{</div>
+<div>\\foo</div>
+<div>$\\!foo</div>
+<div>$foo</div>
+<div>$!foo</div>
+<div>$!{foo}</div>
+<div>\bar</div>
+$
+\\
+
+\$abc
+
+\
+\$
+<p>$</p></textarea><textarea class="source2" style="display:none">
+<div>$\!foo</div>
+<div>$\!{foo}</div>
+<div>$\\foo</div>
+<div>$\\\!foo</div>
+<div>\bar</div>
+<div>\bar</div>
+<div>\bar</div>
+<div>\\bar</div>
+$
+\\
+
+\$abc
+
+\
+\$
+<p>$</p></textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">escape2</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none"><a href="#">123</a>
+
+\#
+\$
+</textarea><textarea class="source2" style="display:none"><a href="#">123</a>
+
+\#
+\$
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">foreach1</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">
+a: 1
+b: 2
+
+1
+2
+
+
+
+<div>array</div>
+<ul>
+    <li>角色：李冬琳 姓名：0</li>
+    <li>角色：0 姓名：1</li>
+    <li>角色： 姓名：</li>
+    <li>胡八一</li>
+    <li>王凯旋</li>
+    <li>大金牙</li>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+    <li>4</li>
+    <li>5</li>
+</ul>
+
+
+
+0
+李冬琳
+</textarea><textarea class="source2" style="display:none">
+a: 1
+b: 2
+
+
+1
+2
+
+
+
+
+<div>array</div>
+<ul>
+<li>角色：李冬琳 姓名：0</li>
+<li>角色：0 姓名：1</li>
+<li>角色： 姓名：</li>
+
+<li>胡八一</li>
+<li>王凯旋</li>
+<li>大金牙</li>
+
+<li>1</li>
+<li>2</li>
+<li>3</li>
+<li>4</li>
+<li>5</li>
+
+</ul>
+
+
+
+
+0
+李冬琳
+
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">foreach2</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none"><div>循环计数
+</div>
+<div>
+keySet
+    <li>1: a -> Value: 1</li>
+    <li>2: b -> Value: 2</li>
+</div>
+<div>
+范围操作符 m > n
+1
+2
+3
+4
+5
+</div>
+<div>
+范围操作符 m < n
+5
+4
+3
+2
+1
+0
+-1
+</div></textarea><textarea class="source2" style="display:none"><div>循环计数
+
+</div>
+<div>
+keySet
+<li>1: a -> Value: 1</li>
+<li>2: b -> Value: 2</li>
+
+</div>
+<div>
+范围操作符 m > n
+1
+2
+3
+4
+5
+
+</div>
+<div>
+范围操作符 m < n
+5
+4
+3
+2
+1
+0
+-1
+
+</div></textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">foreach3</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">
+
+2
+
+1: [1, 2]
+1: 1
+2: 2
+2: [3, 4]
+1: 3
+2: 4
+</textarea><textarea class="source2" style="display:none">
+
+
+2
+
+
+1: [1, 2]
+1: 1
+2: 2
+
+2: [3, 4]
+1: 3
+2: 4
+
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">if1</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">0是true
+1
+1
+12156
+
+
+true
+</textarea><textarea class="source2" style="display:none">0是true
+
+1
+
+
+1
+
+
+12156
+
+
+
+
+
+
+true
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">if2</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">"$abc"
+"falsebc"
+
+$b
+
+
+2
+
+
+
+
+4
+
+5
+
+
+
+
+</textarea><textarea class="source2" style="display:none">"$abc"
+"falsebc"
+
+$b
+
+
+
+2
+
+
+
+
+
+
+4
+
+
+5
+
+
+
+
+
+
+
+
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">if3</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">1
+</textarea><textarea class="source2" style="display:none">1
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">method1</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">5
+12
+8
+09</textarea><textarea class="source2" style="display:none">
+
+
+5
+12
+8
+09</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">order-test</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">
+
+2</textarea><textarea class="source2" style="display:none">
+
+
+
+
+2</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">prop1</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">1
+1
+1
+1
+1
+1
+1
+1
+1
+</textarea><textarea class="source2" style="display:none">1
+1
+1
+1
+1
+1
+1
+1
+1
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">set1</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">  monica
+ Leak
+ 123
+ my12
+fault
+<div>
+</div>
+good
+
+-2
+{number=123, name=胡八一=, person={name=my12my12, age=1, role=摸金校尉, description=str1}}</textarea><textarea class="source2" style="display:none"> 
+ 
+monica
+ 
+Leak
+ 
+123
+ 
+my12
+fault
+<div>
+
+</div>
+good
+
+
+-2
+
+{number=123, name=胡八一=, person={name=my12my12, age=1, role=摸金校尉, description=str1}}</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">set2</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">{a=1, b=2}
+
+8
+[1, 2, 3]
+1
+{a=1, b=2}
+0
+{a=1, b=2}
+
+{a=1, b=2}
+{a=1, b=2}
+{a=1, b=2}
+{a=1, b=2}
+{a=1, b=2}
+{a=1, b=2}
+1.0099999999999998
+
+
+
+</textarea><textarea class="source2" style="display:none">{a=1, b=2}
+
+
+8
+
+[1, 2, 3]
+1
+{a=1, b=2}
+
+0
+
+
+{a=1, b=2}
+
+
+[object Object]1
+
+1[object Object]1
+
+NaN
+
+NaN
+
+NaN
+
+NaN
+
+1.0099999999999998
+
+
+
+
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">set3</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none"><div>www/index.vm</div>
+
+bar
+bar
+
+
+2
+11
+
+
+
+
+
+2
+11
+
+
+
+1
+1
+
+1
+
+
+
+
+
+
+1
+11
+1
+1
+</textarea><textarea class="source2" style="display:none">
+
+
+
+<div>www/index.vm</div>
+
+
+bar
+
+bar
+
+
+
+
+2
+
+11
+
+
+
+
+
+
+
+2
+
+11
+
+
+
+
+1
+
+1
+
+
+1
+
+
+
+
+
+
+
+1
+11
+1
+
+1
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">var1</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">{b=0, c=1}
+{b=0, c=1}
+{b=0, c=1}
+{b=0, c=1}
+0
+1
+</textarea><textarea class="source2" style="display:none">
+{b=0, c=1}
+{b=0, c=1}
+{b=0, c=1}
+{b=0, c=1}
+0
+1
+</textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">var2</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none"><div>1</div>
+<div>0</div>
+<div></div>
+<div><script>alert(1)</script></div>
+<div>有人呢</div>
+<div>$f.b</div>
+<div>$2.5!</div>
+<div>小写</div>
+<div>大写</div>
+<div>-</div>
+<div>_</div>
+<div>012</div></textarea><textarea class="source2" style="display:none"><div>1</div>
+<div>0</div>
+<div></div>
+<div><script>alert(1)</script></div>
+<div>有人呢</div>
+<div>$f.b</div>
+<div>$2.5!</div>
+<div>小写</div>
+<div>大写</div>
+<div>-</div>
+<div>_</div>
+<div>012</div></textarea>            <div class="result"></div></div><div class="case-diff"><h3 class="title">var3</h3>            <a class="toggle" href="javascript:void(0)">view outputs</a>            <textarea class="source1" style="display:none">$obj.a
+${obj.a}
+wtf</textarea><textarea class="source2" style="display:none">
+
+$obj.a
+${obj.a}
+wtf
+</textarea>            <div class="result"></div></div></body></html>

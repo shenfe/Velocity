@@ -1,0 +1,40 @@
+$c
+
+#set($foo = 8)
+$foo
+#set($foo = {
+  "a": 1,
+  "b": 2
+})
+$d
+$foo.a
+$c
+#set($a = "0")
+$a
+## need throw error
+#set($a = $c)
+$a
+
+#set($a = $a + 1)
+$a
+#set($a = 1 + $a)
+$a
+#set($a = $a - 1)
+$a
+#set($a = $a * $b)
+$a
+#set($a = $a / $b)
+$a
+#set($a = $a % $b)
+$a
+#set($a = 4 - 2.99)
+$a
+
+
+#set($list = [
+    {
+      "name": 0,
+      "role": "李冬琳"
+    }
+  ])
+

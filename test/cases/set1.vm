@@ -1,0 +1,29 @@
+#set( $monkey = $bill ) ## variable reference
+#set( $monkey.Friend = "monica" ) ## string literal
+$monkey.Friend
+#set( $monkey.Blame = $whitehouse.Leak ) ## property reference
+$monkey.Blame
+#set( $monkey.Number = 123 ) ##number literal
+$monkey.Number
+#set( $monkey.Say = ["Not", $my, "fault"] ) ## ArrayList
+$monkey.Say[1]
+$monkey.Say[2]
+<div>
+#set($monkey.Map = {"banana" : "good", "roast beef" : "bad"})
+</div>
+$monkey.Map.banana
+
+#set($d = -2)
+$d
+#set($obj = {
+    "number": 123,
+    "name": "胡八一=",
+    "person": {
+        "name": "${my}${my}",
+        "age": "1",
+        "role": "摸金校尉",
+        "description": "str1"
+    }
+})
+$obj
+$obj.get("person").role

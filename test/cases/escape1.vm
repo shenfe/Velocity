@@ -1,0 +1,17 @@
+#set( $foo = "bar" )
+<div>$\!foo</div>
+<div>$\!{foo}</div>
+<div>$\\foo</div>
+<div>$\\\!foo</div>
+<div>\$foo</div>
+<div>\$!foo</div>
+<div>\$!{foo}</div>
+<div>\\$!{foo}</div>
+$
+\\
+
+\$abc
+
+\
+\$
+<p>$</p>

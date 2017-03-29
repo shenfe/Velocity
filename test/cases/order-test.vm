@@ -1,0 +1,9 @@
+#set($a = 1)
+
+#if($a)
+#set($a = $a + 1)
+#else
+#set($a = $a + 1)
+#end
+
+$a

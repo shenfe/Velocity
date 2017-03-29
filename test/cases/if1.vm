@@ -1,0 +1,32 @@
+#if($a)
+0是true
+#end
+#if($a == 0)
+1
+#end
+#if($b == "a")
+2
+#end
+#if($a != $b)
+1
+#end
+#if($a > $b)
+121
+#end
+#if($a < $b)
+12156
+#end
+#if($a >= $b)
+121125
+#end
+#if($a >= $b)
+1214767
+#end
+
+#if($!{d.dd})
+null
+#end
+
+#if($!{d.ee})
+true
+#end

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Velocity Debugger</title>
+    <style>
+        html, body {
+            margin: 0;
+            border: 0;
+            padding: 0;
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        header {
+            display: flex;
+            height: 40px;
+            background: #333;
+        }
+        header>span {
+            flex: 1;
+            color: #fff;
+            line-height: 40px;
+            text-align: center;
+            cursor: pointer;
+        }
+        header>span:hover {
+            background: #666;
+        }
+        #wrapper {
+            flex: 1;
+            display: flex;
+            height: 100%;
+        }
+        #wrapper>.flex {
+            flex: 1;
+        }
+        #htmlOutput {
+            display: flex;
+            flex-direction: column;
+        }
+        #htmlOutput .outputBox {
+            flex: 1;
+            border-bottom: 1px #3883fa solid;
+            box-sizing: border-box;
+            overflow: auto;
+        }
+        #htmlOutput .outputBox:last-child {
+            border-bottom: 0;
+        }
+        textarea {
+            border: 0;
+            padding: 8px;
+            height: 100%;
+            width: 100%;
+            resize: none;
+            outline: none;
+        }
+        h3 {
+            margin: 4px 0;
+        }
+        header, #caseMenu, #templateInput, #dataInput .ace-jsoneditor.ace_editor {
+            font-family: 'Tsentsiu Mono HG', monospace, Arial;
+        }
+        #dataInput .jsoneditor {
+            border-bottom: 0;
+        }
+        #dataInput .jsoneditor-poweredBy {
+            display: none;
+        }
+        #caseMenu {
+            min-width: 100px;
+            overflow-y: auto;
+        }
+        .case-list {
+            padding: 0 1em;
+            font-size: 12px;
+            line-height: 24px;
+        }
+        .case-item {
+            cursor: pointer;
+        }
+        .case-item.active {
+            color: #e43;
+        }
+        .case-item:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <script src="lib/jquery-1.10.2.min.js"></script>
+    <script src="lib/ace/ace.js"></script>
+    <link href="lib/jsoneditor/jsoneditor.min.css" rel="stylesheet" type="text/css">
+    <script src="lib/jsoneditor/jsoneditor.min.js"></script>
+    <script src="velocity.js"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+    <header>
+        <span id="btn-new">[new]</span>
+        <span id="btn-save">[save]</span>
+        <span id="btn-run">[run]</span>
+        <span id="btn-sync">[sync]</span>
+        <span id="btn-all">[run all]</span>
+    </header>
+    <div id="wrapper">
+        <div id="caseMenu">
+            <div id="caseList" class="case-list"></div>
+        </div>
+        <div id="templateInput" class="flex"></div>
+        <div id="dataInput" class="flex"></div>
+        <div id="htmlOutput" class="flex">
+            <div class="outputBox" id="output1" style="width: 100%;"></div>
+            <div class="outputBox" id="output2" style="width: 100%;"></div>
+            <div class="outputBox" id="output3" style="width: 100%;"></div>
+        </div>
+    </div>
+</body>
+</html>

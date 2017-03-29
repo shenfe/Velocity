@@ -1,0 +1,1358 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="$seoModel.keywords" />
+<meta name="description" content="$seoModel.description" />
+<title>$seoModel.title</title>
+
+<!-- export css -->
+
+    <link rel="stylesheet" href="http://127.0.0.1:3000/resource/build/global.min.css?1488350382629" />
+    <link rel="stylesheet" href="http://127.0.0.1:3000/resource/build/city-index.min.css?1488350382629" />
+
+
+
+
+</head>
+<body data-page-name="city-index">
+
+<!-- layout -->
+#set($resourceURL = "http://127.0.0.1:3000/resource/")
+#set($controllerName = "city-index")
+
+#set($header-list = [])
+#set($login-list = [])
+#set($city-banner-list = [])
+#set($city-header-list = [])
+#set($city-banner-ad-list = [])
+#set($jiaju-list-list = [])
+#set($footer-list = [])
+#set($city-jiajv-baoming-list = [])
+#set($common-float-dlg-list = [])
+
+##图片规则
+#set($PHOTO_STYLE_S = "/sh200x150sh")
+#set($PHOTO_STYLE_M = "/sh01sh")
+#set($PHOTO_STYLE_L = "/sh01sh")
+#set($DEFAULT_PHOTO_PATH = "${PHOTO_DOMAIN}${PHOTO_STYLE_S}/misc/focus_stzwt.jpg")
+#*
+#set($city-header-list = [{
+    "currentTab":"city-index",
+    "list" : [
+    {
+    "name" : "首页",
+    "tab":"city-index",
+    "url" : "city-index.html"
+    },
+    {
+    "name" : "楼盘",
+    "tab":"loupan-index",
+    "url" : "loupan.html"
+    },
+    {
+    "name" : "资讯",
+    "tab":"news-list",
+    "url" : "news-list.html"
+    },
+    {
+    "name" : "论坛",
+    "tab":"#",
+    "url" : "#"
+    },
+    {
+    "name" : "家居",
+    "tab":"#",
+    "url" : "//home.focus.cn/"
+    }
+    ]
+}])
+*#
+
+#set($header-nav-list = [{
+    "currentTab":"city-index",
+    "list" : [
+        {
+            "name": "首页",
+            "tab": "city-index",
+            "url": "#"
+        },
+        {
+            "name": "楼盘",
+            "tab": "loupan-index",
+            "url": "https://${cityPrefix}.${FOCUS_DOMAIN}.cn/loupan/"
+        },
+        {
+            "name": "资讯",
+            "tab": "news-list",
+            "url": "https://${cityPrefix}.${FOCUS_DOMAIN}.cn/zixun/"
+        },
+        {
+            "name": "论坛",
+            "tab": "#",
+            "url": "https://bbs.${FOCUS_DOMAIN}.cn/${cityPrefix}/"
+        },
+        {
+            "name": "家居",
+            "tab": "#",
+            "url": "https://home.focus.cn/"
+        }
+    ]
+}])
+
+
+
+
+
+
+## 热门筛选
+#set($city-area-select-list = [{
+    "region-list": ${searchModel.vdistrictList},
+    "region-panel": ${searchModel.vdistrictList},
+    "price-list": ${searchModel.unitPriceSpan},
+    "price-panel": ${searchModel.unitPriceSpan},
+    "area-list": ${searchModel.areaSpan},
+    "area-panel": ${searchModel.areaSpan},
+    "feature-list": ${searchModel.projFeatures},
+    "feature-panel": ${searchModel.projFeatures}
+}])
+
+## 房产资讯模块
+#set($city-info-list = [{
+    "lists": ${latestNewsList}
+}])
+
+## 区域热盘、价格精选、特色推荐
+#set($city-gallery-list = [{
+    "title": "区域热盘",
+    "type": "qvyu",
+    "gallery-type": "vdistrict",
+    "nav-lists": ${searchModel.vdistrictList},
+    "lp-lists": ${vdistrictLoupanListData}
+},{
+    "title": "价格精选",
+    "type": "price",
+    "gallery-type": "unitPrice",
+    "nav-lists": $searchModel.unitPriceSpan,
+    "lp-lists": ${unitPriceLoupanListData}
+},{
+    "title": "特色推荐",
+    "type": "feature",
+    "gallery-type": "projFeature",
+    "nav-lists": $searchModel.projFeatures,
+    "lp-lists": ${projFeatureLoupanListData}
+}])
+
+##最新开盘$latestLoupanList 数据格式不对
+#set($city-new-pan-list = [{
+    "list": ${latestLoupanData}
+}])
+
+##家居模块左侧筛选
+#set($city-jiaju-list = [{
+    "navList" : ${cmsIndexData.home_nav_title},
+    "options": ${cmsIndexData.home_option},
+    "dataList": ${homePcData.center}
+}])
+
+#set($develop-list = {
+    "page": 2
+    }
+)
+
+##开发商列表
+#set ($developer-hot-list-list = [{
+    "list": ${developList},
+    "page": 2
+}])
+
+#set($developer-hot-list = $developer-hot-list-list[0])
+
+##论坛$bbsDataList 数据空
+#set ($forum-list-list = [{
+    "lists": ${bbsDataList}
+}])
+
+#set($common-float-list=[{
+    "proname": "",
+    "source": "1"
+}])
+<div id="doc">
+    <div id="globalHead">
+        <!-- global head modules -->
+        
+#if($header-list.size() > 0)
+    #set($header = $header-list[0])
+#else
+    #set($header = {})
+#end
+<div node-type="module" class="module-header" data-ru="$!{page_data.ru}" #if($!{uid} && $!{uid} != "") data-uid="$!{uid}" #else data-uid="-1" #end>
+    <!--header-->
+    <div class="header-wrap clearfix">
+        <div class="header-left">
+            <ul class="channel-nav-list clearfix">
+                #if($cityPrefix)
+                    <li class="channel-nav-item"><span class="icon-index"></span><a class="channel-link" href="https://${cityPrefix}.${FOCUS_DOMAIN}.cn/" target="_blank">搜狐焦点</a></li>
+                    #if($!{cityId} != 0)
+                    #if($!{controllerName} != "profile")
+                    <li class="channel-nav-item"><a class="channel-link" href="https://${cityPrefix}.${FOCUS_DOMAIN}.cn/loupan/" target="_blank">楼盘</a></li>
+                    #end
+                    <li class="channel-nav-item"><a class="channel-link" href="https://${cityPrefix}.${FOCUS_DOMAIN}.cn/zixun/" target="_blank">资讯</a></li>
+                    #if($!{controllerName} != "profile")
+                    <li class="channel-nav-item"><a class="channel-link" href="https://bbs.${FOCUS_DOMAIN}.cn/${cityPrefix}/" target="_blank">论坛</a></li>
+                    #end
+                    #else
+                    <li class="channel-nav-item"><a class="channel-link" href="https://zixun.${FOCUS_DOMAIN}.cn/" target="_blank">资讯</a></li>
+                    #end
+                    <li class="channel-nav-item"><a class="channel-link" href="https://home.focus.cn" target="_blank">家居</a></li>
+                #else
+                    <li class="channel-nav-item"><span class="icon-index"></span><a class="channel-link" href="https://www.${FOCUS_DOMAIN}.cn/" target="_blank">搜狐焦点</a></li>
+                    #if($!{cityId} != 0)
+                    #if($!{controllerName} != "profile")
+                    <li class="channel-nav-item"><a class="channel-link" href="https://${FOCUS_DOMAIN}.cn/loupan/" target="_blank">楼盘</a></li>
+                    #end
+                    <li class="channel-nav-item"><a class="channel-link" href="https://zixun.${FOCUS_DOMAIN}.cn/" target="_blank">资讯</a></li>
+                    #if($!{controllerName} != "profile")
+                    <li class="channel-nav-item"><a class="channel-link" href="https://bbs.${FOCUS_DOMAIN}.cn/" target="_blank">论坛</a></li>
+                    #end
+                    #else
+                    <li class="channel-nav-item"><a class="channel-link" href="https://zixun.${FOCUS_DOMAIN}.cn/" target="_blank">资讯</a></li>
+                    #end
+                    <li class="channel-nav-item"><a class="channel-link" href="https://home.focus.cn" target="_blank">家居</a></li>
+                #end
+            </ul>
+        </div>
+        <div class="header-right">
+            <a href="https://mp.${FOCUS_DOMAIN}.cn/front/index.html#/index" class="btn btn-open-platform" target="_blank">
+                <span class="icon"></span>
+                <span class="txt">焦点开放平台入驻</span>
+            </a>
+            <span class="unlog-wrap" #if($!{uid} && $!{uid} != "")style="display:none"#else style="display:inline-block"#end>
+                <a href="javascript:;" class="btn btn-open-login">
+                    <span class="icon"></span>
+                    <span class="txt">登录</span>
+                </a>
+                <span class="divide-line">|</span>
+                <a href="javascript:void(0)" target="_blank" class="btn btn-open-signup">
+                    <span class="icon"></span>
+                    <span class="txt">注册</span>
+                </a>
+            </span>
+            <span class="loged-wrap" #if($!{uid} && $!{uid} != "")style="display:inline-block"#else style="display:none"#end>
+                <a href="http://i.focus.cn/myfocus/" target="_blank" class="btn btn-info">
+                    <span class="icon"></span>
+                    <span class="txt"></span>
+                </a>
+                <span class="divide-line">|</span>
+                <a href="javascript:void(0)" class="btn btn-logout">
+                    <span class="icon"></span>
+                    <span class="txt">退出</span>
+                </a>
+            </span>
+        </div>
+    </div>
+</div>
+#if($login-list.size() > 0)
+    #set($login = $login-list[0])
+#else
+    #set($login = {})
+#end
+<div node-type="module" class="module-login">
+</div>
+#if($city-header-list.size() > 0)
+    #set($city-header = $city-header-list[0])
+#else
+    #set($city-header = {})
+#end
+#set($city-header = {
+    "city": {
+        "cityId" : $!{cityId},
+        "cityName": $!{cityName}
+    }
+})
+<div node-type="module" class="module-city-header" data-inMap="$!{thisIsMapIndex}">
+    <div class="city-header-wrap global-clearfix">
+        <div class="city-header-left">
+            <a href="https://${cityPrefix}.${FOCUS_DOMAIN}.cn/" class="logo"></a>
+            <div class="city-area">
+                <div id="cityBtn">
+                    <span class="city-name">$!{city-header.city.cityName}站</span>
+                    <a class="city-select-btn" href="javascript:void(0)">切换城市</a>
+                </div>
+               
+
+##城市切换
+#set($cityGroupTable = [
+    ["A","B","C","D","E"],
+    ["F","G","H","I","J"],
+    ["K","L","M","N","P"],
+    ["Q","R","S","T","W"],
+    ["X","Y","Z"]
+])
+#set($cityIndexTable = {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "D": 0,
+    "E": 0,
+    "F": 1,
+    "G": 1,
+    "H": 1,
+    "I": 1,
+    "J": 1,
+    "K": 2,
+    "L": 2,
+    "M": 2,
+    "N": 2,
+    "O": 2,
+    "P": 2,
+    "Q": 3,
+    "R": 3,
+    "S": 3,
+    "T": 3,
+    "U": 3,
+    "V": 3,
+    "W": 3,
+    "X": 4,
+    "Y": 4,
+    "Z": 4
+})
+
+#set($whereIsCityLetter = {
+    "A": 0,
+    "B": 0,
+    "C": 0,
+    "D": 0,
+    "E": 0,
+    "F": 0,
+    "G": 0,
+    "H": 0,
+    "I": 0,
+    "J": 0,
+    "K": 0,
+    "L": 0,
+    "M": 0,
+    "N": 0,
+    "O": 0,
+    "P": 0,
+    "Q": 0,
+    "R": 0,
+    "S": 0,
+    "T": 0,
+    "U": 0,
+    "V": 0,
+    "W": 0,
+    "X": 0,
+    "Y": 0,
+    "Z": 0
+})
+
+#foreach($item123321 in $cityGroupInfo)
+    #set($index = $item123321.letter)
+    #set($whereIsCityLetter[$index] = $velocityCount - 1)
+#end
+
+<div class="h-city" node-type="city-select-container">
+    <i></i>
+    <div class="cityArea_k" id="cityArea">
+        <div class="tt">热门城市：
+            #foreach($eachHotCityItem in $hotCityList)
+            <a href="$eachHotCityItem.url">$eachHotCityItem.cityName</a>
+            #end
+            <a href="javascript:void(0)" class="h-close"></a>
+        </div>
+        #set($cityFirstLetterList = ["A","B","C","D","E","F","G","H","J","K","L","M","N","P","Q","R","S","T","W","X","Y","Z"])
+        <div class="top">
+            #foreach($cityFirstLetter in $cityFirstLetterList)<a href="javascript:void(0)" data-letter="$!{cityFirstLetter}" data-group="$cityIndexTable.get($!{cityFirstLetter})" node-type="city-selecter-nav-item" class="city_$!{cityFirstLetter}">$!{cityFirstLetter}</a>#end
+        </div>
+        <div class="bot">
+            #foreach($item in $cityGroupTable)
+            #set($cityGroupItemIndex = $velocityCount - 1)
+            <div class="cityAreaBox" node-type="city-selecter-city-group" id="city_group_$!{cityGroupItemIndex}">
+                <div class="cityAreaBoxHd">
+                    #foreach($item2 in $item)
+                        $!{item2} #if($velocityCount!=$item.size())- #end
+                    #end
+                </div>
+                <div class="cityAreaBoxCen">
+                    <ul>
+                    #foreach($item3 in $item)
+                        #set($curCityListIndex = $whereIsCityLetter.get($item3))
+                        #set($curCityList = $cityGroupInfo[$curCityListIndex].cityList)
+                        #foreach($item4 in $curCityList)
+                        <li><a href="$item4.url">$item4.cityName</a></li>
+                        #end
+                    #end
+                    </ul>
+                </div>
+            </div>
+            #end
+        </div>
+    </div>
+</div>
+
+
+
+            </div>
+        </div>
+        #if($!{cityId} != 0)
+        <div class="city-header-right global-clearfix">
+            <div class="search-area global-clearfix">
+                <input type="text" node-type="input-search" data-cityId="$!{city-header.city.cityId}" class="input-search" data-value="请输入楼盘名称或位置" value="请输入楼盘名称或位置">
+                <a href="javascript:void(0)" data-prefix="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/" class="btn-search global-clearfix" node-type="search-button">
+                    搜索
+                </a>
+                <ul class="suggest-list" node-type="suggest-list" style="display: none;">
+                    <li class="suggest-item"><a class="suggest-link" href="javascript:;">首开国风没糖</a></li>
+                </ul>
+            </div>
+            <a href="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/map/" target="_blank" class="btn-mapfindfang">地图找房</a>
+            #if($estateTopK.dataArray.size() > 0)
+            <div class="txt-link-list">
+                <span style="font-weight: bold;">热搜楼盘：</span>
+                #foreach($hotSearch in $estateTopK.dataArray)
+                #if($velocityCount <= 3)
+                <a href="$!{hotSearch.url}" target="_blank" class="txt-link">$!{hotSearch.estateName}</a>
+                #end
+                #end
+            </div>
+            #end
+        </div>
+        #end
+    </div>
+</div>
+#if($header-nav-list.size() > 0)
+    #set($header-nav = $header-nav-list[0])
+#else
+    #set($header-nav = {})
+#end
+<div node-type="module" class="module-header-nav">
+    <ul class="nav-header-wrap">
+        #foreach($item in $header-nav.list )
+        <li #if ($header-nav.currentTab == $item.tab)class="cur"#end><a href="$!{item.url}" target="_blank">$!{item.name}</a></li>
+        #end
+    </ul>
+</div>
+
+        <!-- global head modules end -->
+    </div>
+
+    <div id="hd" class="global-clearfix">
+        <!-- head modules -->
+        
+#if($city-area-select-list.size() > 0)
+    #set($city-area-select = $city-area-select-list[0])
+#else
+    #set($city-area-select = {})
+#end
+<div node-type="module" class="module-city-area-select">
+    <div class="header">
+        <em class="header_icon"></em><span class="header_text">热门筛选</span>
+    </div>
+    <div class="content_70px global-clearfix" attr="quyu_right">
+        <div class="select_left">
+             <ul>
+                <li class="two-line"><span>区域</span></li>
+                #foreach($regionItem in $city-area-select.region-list)
+                    #if($regionItem.vdistrictId != -1)
+                <li><a target="_blank" href="$!{regionItem.url}" title="$!{regionItem.vdistrictName}">$!{regionItem.vdistrictName}</a></li>
+                    #end
+                #end
+            </ul>
+            <em class="arrow-right content_70px_arrow-right"></em>
+        </div>
+        <div class="content_right quyu2 quyu2_right">
+            <div class="content_right_wrap">
+            #foreach($panelItem in $city-area-select.region-panel)
+                #if($panelItem.vdistrictId != -1)
+                <a target="_blank" href="$!{panelItem.url}" class="quyu-txt"><span class="quyu_dtail">$!{panelItem.vdistrictName}</span></a>
+                #end
+            #end
+            </div>
+        </div>
+        #*
+        <div class="content_right quyu quyu_right">
+            #foreach($panelItem in $city-area-select.region-panel)
+                #if($panelItem.vdistrictId != -1)
+            <div class="content_right_wrap">
+                <ul>
+                    <h3 class="quyu-name"><a target="_blank" href="${panelItem.url}">$!{panelItem.vdistrictName}</a></h3>
+                    #foreach($lp in $panelItem.circleList)
+                        #if($lp.circleId != -1)
+                            #if($velocityCount == 1)
+                        <li class="ml-0">
+                            #else
+                        <li>
+                            #end
+                            <a target="_blank" href="$!{lp.url}">$!{lp.circleName}</a>
+                        </li>
+                        #end
+                    #end
+                </ul>
+            </div>
+                #end
+            #end
+        </div>
+        *#
+    </div>
+    <div class="content_70px global-clearfix" attr="danjia_right">
+        <div class="select_left">
+            <ul>
+                <li class="two-line"><span>单价</span></li>
+                #foreach($priceItem in $city-area-select.price-list)
+                    #if($priceItem.min != -1)
+                <li><a target="_blank" href="$!{priceItem.url}" title="$!{priceItem.enumTxt}">$!{priceItem.enumTxt}</a></li>
+                    #end
+                #end
+            </ul>
+            <em class="arrow-right content_70px_arrow-right"></em>
+        </div>
+        <div class="content_right danjia danjia_right">
+            <div class="content_right_wrap danjia_wrap">
+                <div class="danjia_first">
+                    #foreach($priceItem in $city-area-select.price-panel)
+                        #if($priceItem.min != -1)
+                    <a target="_blank" href="$!{priceItem.url}" class="price"><span class="price_dtail">$!{priceItem.enumTxt}</span></a>
+                        #end
+                    #end
+                    <!-- </div>
+                <div class="danjia_second"> -->
+                    <!-- <a target="_blank" href="" class="price"><span class="price_dtail">50000以上</span></a> -->
+                    <!-- <input note-type="price-start"></input>-
+                    <input note-type="price-end"></input>
+                    <span data-link="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/" class="submit" note-type="price-search">确定</span> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content_70px global-clearfix mianji" attr="mianji_right">
+        <div class="select_left">
+             <ul>
+                <li class="two-line"><span>面积</span></li>
+                #foreach($areaItem in $city-area-select.area-list)
+                    #if($areaItem.min != -1)
+                <li><a target="_blank" href="$!{areaItem.url}" title="$!{areaItem.enumTxt}">$!{areaItem.enumTxt}<!-- <span class="content_70px_super">2</span> --></a></li>
+                    #end
+                #end
+            </ul>
+            <em class="arrow-right content_70px_arrow-right"></em>
+        </div>
+        <div class="content_right danjia mianji_right">
+            <div class="content_right_wrap mianji_wrap">
+                <div class="danjia_first">
+                    #foreach($areaItem in $city-area-select.area-panel)
+                        #if($areaItem.min != -1)
+                    <a target="_blank" href="$!{areaItem.url}" class="price"><span class="price_dtail">$!{areaItem.enumTxt}#*<em class="content_70px_super">2</em>以下*#</span></a>
+                        #end
+                    #end
+                    <!-- </div>
+                <div class="danjia_second">
+                    <a target="_blank" href="" class="price"><span class="price_dtail">300m<em class="content_70px_super">2</em>以上</span></a> -->
+                    <!-- <input note-type="area-start"></input>-
+                    <input note-type="area-end"></input>
+                    <span class="submit" data-link="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/" note-type="area-search">确定</span> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content_70px global-clearfix tese" attr="tese_right">
+        <div class="select_left">
+             <ul>
+                <li class="two-line"><span>特色</span></li>
+                #foreach($featureItem in $city-area-select.feature-list)
+                    #if($featureItem.enumId != -1)
+                <li><a target="_blank" href="$!{featureItem.url}" title="$!{featureItem.enumTxt}">$!{featureItem.enumTxt}</a></li>
+                    #end
+                #end
+            </ul>
+            <em class="arrow-right"></em>
+        </div>
+        <div class="content_right tese_right">
+            <div class="content_right_wrap">
+                <div class="danjia_first">
+                    #foreach($featureItem in $city-area-select.feature-panel)
+                        #if($featureItem.enumId != -1)
+                    <a target="_blank" href="$!{featureItem.url}" class="price"><span class="price_dtail">$!{featureItem.enumTxt}</span></a>
+                        #end
+                    #end
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+#if($city-banner-list.size() > 0)
+    #set($city-banner = $city-banner-list[0])
+#else
+    #set($city-banner = {})
+#end
+<div node-type="module" class="module-city-banner" id="cityBanner" data-cityid="$!{cityId}" data-domain="$!{FOCUS_DOMAIN}" data-city-prefix="$!{cityPrefix}">
+    <!-- <div class="banner-list">
+    </div>
+    <div class="dots">
+        #foreach($item in $city-banner.lists)
+            #if( $velocityCount==1 )
+            <div  class="dot active"></div>
+            #else
+            <div  class="dot"></div>
+            #end
+         #end
+    </div>
+    <div class="banner-left">left</div>
+    <div class="banner-right"></div> -->
+</div>
+#if($city-info-list.size() > 0)
+    #set($city-info = $city-info-list[0])
+#else
+    #set($city-info = {})
+#end
+<div node-type="module" class="module-city-info" data-cityid="$!{cityId}">
+    <div class="title">房产资讯</div>
+    <ul class="zixun-list">
+       
+
+#foreach($item in $city-info.lists)
+    #if($velocityCount <= 7)
+<li class="zixun"><a title="$!{item.title}" href="$!{item.url}" target="_blank" node-type="zixun-link">$!{item.title}</a></li>
+    #end
+#end
+
+
+    </ul>
+</div>#if($city-banner-ad-list.size() > 0)
+    #set($city-banner-ad = $city-banner-ad-list[0])
+#else
+    #set($city-banner-ad = {})
+#end
+<div node-type="module" class="module-city-banner-ad" data-cityid="$!{cityId}">
+
+</div>
+        <!-- head modules end -->
+    </div>
+    <div id="bd">
+        <div id="bd-row1" class="bd-row global-clearfix">
+            <div class="row-left">
+                <!-- left module1 -->
+                
+#if($city-gallery-list.size() > 0)
+    #set($city-gallery = $city-gallery-list[0])
+#else
+    #set($city-gallery = {})
+#end
+#set($city-gallery-nav-length = 5)
+<div node-type="module" class="module-city-gallery">
+    <div class="header">
+        <div class="header-name">
+            #if($city-gallery.type == "qvyu")
+            <em class="header-name_em qvyu"></em>
+            #elseif($city-gallery.type == "price")
+            <em class="header-name_em price"></em>
+            #elseif($city-gallery.type == "feature")
+            <em class="header-name_em feature"></em>
+            #else
+            <em class="header-name_em qvyu"></em>
+            #end
+            <span class="header-name_span">$!{city-gallery.title}</span>
+        </div>
+        <div class="header-tab">
+            #if($city-gallery.gallery-type == "vdistrict")
+            <ul>
+
+                #if($city-gallery.type == "qvyu")
+                #set($city-gallery-nav-length = 8)
+                #end
+                #foreach($item in $city-gallery.nav-lists)
+                    #if($item.vdistrictId != -1 && $velocityCount <= $city-gallery-nav-length)
+                        #if( $velocityCount==1 )
+                        <li class="on"><a target="_blank" href="$!{item.url}">$!{item.vdistrictName}</a></li>
+                        #else
+                        <li><a target="_blank" href="$!{item.url}">$!{item.vdistrictName}</a></li>
+                        #end
+                    #end
+                #end
+            </ul>
+            #elseif($city-gallery.gallery-type == "unitPrice")
+            <ul>
+                #foreach($item in $city-gallery.nav-lists)
+                    #if($item.min != -1 && $velocityCount <= 6)
+                        #if( $velocityCount==1 )
+                        <li class="on"><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #else
+                        <li><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #end
+                    #end
+                #end
+            </ul>
+            #else
+            <ul>
+                #foreach($item in $city-gallery.nav-lists)
+                    #if($item.enumId != -1 && $velocityCount <= 6)
+                        #if( $velocityCount==1 )
+                        <li class="on"><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #else
+                        <li><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #end
+                    #end
+                #end
+            </ul>
+            #end
+        </div>
+        <div class="header-more"><a target="_blank" href="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/">更多>></a></div>
+    </div>
+    <div class="content">
+        #set($countContentNonEmpty = 0)
+        #foreach($item in $city-gallery.lp-lists)
+            #if($velocityCount <= $city-gallery-nav-length)
+                #if($item.size() == 0)
+        <ul class="content-wrap" data-nodata="nodata">
+                #else
+        #set($countContentNonEmpty = $countContentNonEmpty + 1)
+        <ul class="content-wrap #if($countContentNonEmpty == 1)current#end">
+                #end
+            #foreach($item2 in $item)
+                #if($velocityCount <= 8)
+            <li>
+                <div class="img_wrap">
+                    <a href="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/$!{item2.pid}.html" target="_blank" class="img_link">
+                    #if($item2.projPhotoPath)
+                        <img src="$!{PHOTO_DOMAIN}$!{PHOTO_STYLE_S}$!{item2.projPhotoPath}" alt="$!{item2.projName}">
+                    #else
+                        <img src="$!{DEFAULT_PHOTO_PATH}" alt="$!{item2.projName}">
+                    #end
+                        <span class="hover-mask"></span>
+                    </a>
+
+                </div>
+                <div class="loupan"><span class="loupan-name"><a href="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/$!{item2.pid}.html" title="$!{item2.projName}" target="_blank">$!{item2.projName}</a></span><span class="loupan-location">$!{item2.districtNames[0]}</span></div>
+                <div class="price">
+                #set($item2PriceUint = "")
+                #set($item2PriceUintStart = "")
+                #set($item2PriceRMB = "￥")
+                #set($item2PriceShow = "")
+                #if($item2.priceType == 0)
+                    #set($item2PriceRMB = "")
+                    #set($item2PriceShow = "待定")
+                #elseif($item2.priceType == 1)
+                    #set($item2PriceUint = "元/㎡")
+                #elseif($item2.priceType == 2)
+                    #set($item2PriceUint = "万元/套")
+                #end
+
+                #if($item2.lowPriceDisplay != "")
+                    #set($item2PriceShow = $item2.lowPriceDisplay)
+                    #set($item2PriceUintStart = "起")
+                #elseif($item2.avgPriceDisplay != "")
+                    #set($item2PriceShow = $item2.avgPriceDisplay)
+                #elseif($item2.highPriceDisplay != "")
+                    #set($item2PriceShow =  $item2.highPriceDisplay)
+                #end
+
+                <span class="tag">$!{item2PriceRMB}</span><span class="price-detail">${item2PriceShow}</span><span class="danwei">${item2PriceUint}${item2PriceUintStart}</span>
+                </div>
+                #*<div class="price"><span class="tag">￥</span><span class="price-detail">#if($item2.showPrice)$!{item2.showPrice}#elseif($item2.showAllPrice)$!{item2.showAllPrice}#else待定#end</span><span class="danwei">#if($item2.showPrice)元/㎡#elseif($item2.showAllPrice)万元/套#else#end</span></div>*#
+                <div class="marker">
+                    #foreach($item3 in $item2.projFeatureDesc)
+                    <em>$!{item3}</em>
+                    #end
+                </div>
+            </li>
+                #end
+            #end
+        </ul>
+            #end
+        #end
+
+    </div>
+</div>
+
+                <!-- left module1 end -->
+            </div>
+            <div class="row-right">
+                <!-- right module1 -->
+                
+#if($city-new-pan-list.size() > 0)
+    #set($city-new-pan = $city-new-pan-list[0])
+#else
+    #set($city-new-pan = {})
+#end
+<div node-type="module" class="module-city-new-pan" data-cityid="$!{cityId}">
+    <div class="header">
+        <div class="header-line"></div>
+        <p class="header-title">最新开盘</p>
+    </div>
+    <div class="left-zxkf" id="scrollContainer">
+        <ul id="scrollContent" >
+            #foreach($item in $city-new-pan.list )
+            <li>
+                <div class="zxkf-time"><em><span>$!{item.time}</span></em></div>
+                #foreach($item2 in $item.list )
+                <div class="zxkf-title">
+                     <span class="zxkf-title-left"><a href="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/$!{item2.pid}.html" target="_blank" title="$!{item2.projName}">$!{item2.projName}</a></span>
+                    <span class="zxkf-title-right">
+                        #set($item2PriceUint = "")
+                        #set($item2PriceUintStart = "")
+                        #set($item2PriceRMB = "￥")
+                        #set($item2PriceShow = "")
+                        #if($item2.priceType == 0)
+                            #set($item2PriceRMB = "")
+                            #set($item2PriceShow = "待定")
+                        #elseif($item2.priceType == 1)
+                            #set($item2PriceUint = "元/㎡")
+                        #elseif($item2.priceType == 2)
+                            #set($item2PriceUint = "万元/套")
+                        #end
+
+                        #if($item2.lowPriceDisplay != "")
+                            #set($item2PriceShow = $item2.lowPriceDisplay)
+                            #set($item2PriceUintStart = "起")
+                        #elseif($item2.avgPriceDisplay != "")
+                            #set($item2PriceShow = $item2.avgPriceDisplay)
+                        #elseif($item2.highPriceDisplay != "")
+                            #set($item2PriceShow =  $item2.highPriceDisplay)
+                        #end
+                        <strong>${item2PriceShow}</strong>${item2PriceUint}${item2PriceUintStart}
+
+                    </span>
+                </div>
+                #end
+            </li>
+            #end
+        </ul>
+        <div class="scroll-bg" id="scrollBar"><em class="scroll-em"></em>
+        </div>
+    </div>
+    <a href="javascript:;" node-type="ad" class="city-new-pan-ad" title="广告"></a>
+
+</div>
+
+                <!-- right module1 end -->
+            </div>
+        </div>
+        <div id="bd-row2" class="bd-row global-clearfix">
+            <div class="row-left">
+                <!-- left module2 -->
+                
+#if($city-gallery-list.size() > 1)
+    #set($city-gallery = $city-gallery-list[1])
+#else
+    #set($city-gallery = {})
+#end
+#set($city-gallery-nav-length = 5)
+<div node-type="module" class="module-city-gallery">
+    <div class="header">
+        <div class="header-name">
+            #if($city-gallery.type == "qvyu")
+            <em class="header-name_em qvyu"></em>
+            #elseif($city-gallery.type == "price")
+            <em class="header-name_em price"></em>
+            #elseif($city-gallery.type == "feature")
+            <em class="header-name_em feature"></em>
+            #else
+            <em class="header-name_em qvyu"></em>
+            #end
+            <span class="header-name_span">$!{city-gallery.title}</span>
+        </div>
+        <div class="header-tab">
+            #if($city-gallery.gallery-type == "vdistrict")
+            <ul>
+
+                #if($city-gallery.type == "qvyu")
+                #set($city-gallery-nav-length = 8)
+                #end
+                #foreach($item in $city-gallery.nav-lists)
+                    #if($item.vdistrictId != -1 && $velocityCount <= $city-gallery-nav-length)
+                        #if( $velocityCount==1 )
+                        <li class="on"><a target="_blank" href="$!{item.url}">$!{item.vdistrictName}</a></li>
+                        #else
+                        <li><a target="_blank" href="$!{item.url}">$!{item.vdistrictName}</a></li>
+                        #end
+                    #end
+                #end
+            </ul>
+            #elseif($city-gallery.gallery-type == "unitPrice")
+            <ul>
+                #foreach($item in $city-gallery.nav-lists)
+                    #if($item.min != -1 && $velocityCount <= 6)
+                        #if( $velocityCount==1 )
+                        <li class="on"><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #else
+                        <li><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #end
+                    #end
+                #end
+            </ul>
+            #else
+            <ul>
+                #foreach($item in $city-gallery.nav-lists)
+                    #if($item.enumId != -1 && $velocityCount <= 6)
+                        #if( $velocityCount==1 )
+                        <li class="on"><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #else
+                        <li><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #end
+                    #end
+                #end
+            </ul>
+            #end
+        </div>
+        <div class="header-more"><a target="_blank" href="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/">更多>></a></div>
+    </div>
+    <div class="content">
+        #set($countContentNonEmpty = 0)
+        #foreach($item in $city-gallery.lp-lists)
+            #if($velocityCount <= $city-gallery-nav-length)
+                #if($item.size() == 0)
+        <ul class="content-wrap" data-nodata="nodata">
+                #else
+        #set($countContentNonEmpty = $countContentNonEmpty + 1)
+        <ul class="content-wrap #if($countContentNonEmpty == 1)current#end">
+                #end
+            #foreach($item2 in $item)
+                #if($velocityCount <= 8)
+            <li>
+                <div class="img_wrap">
+                    <a href="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/$!{item2.pid}.html" target="_blank" class="img_link">
+                    #if($item2.projPhotoPath)
+                        <img src="$!{PHOTO_DOMAIN}$!{PHOTO_STYLE_S}$!{item2.projPhotoPath}" alt="$!{item2.projName}">
+                    #else
+                        <img src="$!{DEFAULT_PHOTO_PATH}" alt="$!{item2.projName}">
+                    #end
+                        <span class="hover-mask"></span>
+                    </a>
+
+                </div>
+                <div class="loupan"><span class="loupan-name"><a href="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/$!{item2.pid}.html" title="$!{item2.projName}" target="_blank">$!{item2.projName}</a></span><span class="loupan-location">$!{item2.districtNames[0]}</span></div>
+                <div class="price">
+                #set($item2PriceUint = "")
+                #set($item2PriceUintStart = "")
+                #set($item2PriceRMB = "￥")
+                #set($item2PriceShow = "")
+                #if($item2.priceType == 0)
+                    #set($item2PriceRMB = "")
+                    #set($item2PriceShow = "待定")
+                #elseif($item2.priceType == 1)
+                    #set($item2PriceUint = "元/㎡")
+                #elseif($item2.priceType == 2)
+                    #set($item2PriceUint = "万元/套")
+                #end
+
+                #if($item2.lowPriceDisplay != "")
+                    #set($item2PriceShow = $item2.lowPriceDisplay)
+                    #set($item2PriceUintStart = "起")
+                #elseif($item2.avgPriceDisplay != "")
+                    #set($item2PriceShow = $item2.avgPriceDisplay)
+                #elseif($item2.highPriceDisplay != "")
+                    #set($item2PriceShow =  $item2.highPriceDisplay)
+                #end
+
+                <span class="tag">$!{item2PriceRMB}</span><span class="price-detail">${item2PriceShow}</span><span class="danwei">${item2PriceUint}${item2PriceUintStart}</span>
+                </div>
+                #*<div class="price"><span class="tag">￥</span><span class="price-detail">#if($item2.showPrice)$!{item2.showPrice}#elseif($item2.showAllPrice)$!{item2.showAllPrice}#else待定#end</span><span class="danwei">#if($item2.showPrice)元/㎡#elseif($item2.showAllPrice)万元/套#else#end</span></div>*#
+                <div class="marker">
+                    #foreach($item3 in $item2.projFeatureDesc)
+                    <em>$!{item3}</em>
+                    #end
+                </div>
+            </li>
+                #end
+            #end
+        </ul>
+            #end
+        #end
+
+    </div>
+</div>
+
+                <!-- left module2 end -->
+            </div>
+            <div class="row-right">
+                <!-- right module2 -->
+                
+#if($forum-list-list.size() > 0)
+    #set($forum-list = $forum-list-list[0])
+#else
+    #set($forum-list = {})
+#end
+<div node-type="module" class="module-forum-list" data-cityid="$!{cityId}">
+    <div class="header">
+        <div class="header-line"></div>
+        <a href="https://bbs.${FOCUS_DOMAIN}.cn/${cityPrefix}/" target="_blank" class="header-title">论坛</a>
+    </div>
+    <dl class="forum-list">
+        #foreach($item in $forum-list.lists)
+        <dd class="forum-item"><a href="$!{item.topicUrl}" class="forum-link" target="_blank" title="$!{item.topicTitle}">$!{item.topicTitle}</a></dd>
+        #end
+    </dl>
+    <a class="forum-ad-link" href="javascript:;" node-type="ad"></a>
+</div>
+                <!-- right module2 end -->
+            </div>
+        </div>
+        <div id="bd-row3" class="bd-row global-clearfix">
+            <div class="row-left">
+                <!-- left module3 -->
+                
+#if($city-gallery-list.size() > 2)
+    #set($city-gallery = $city-gallery-list[2])
+#else
+    #set($city-gallery = {})
+#end
+#set($city-gallery-nav-length = 5)
+<div node-type="module" class="module-city-gallery">
+    <div class="header">
+        <div class="header-name">
+            #if($city-gallery.type == "qvyu")
+            <em class="header-name_em qvyu"></em>
+            #elseif($city-gallery.type == "price")
+            <em class="header-name_em price"></em>
+            #elseif($city-gallery.type == "feature")
+            <em class="header-name_em feature"></em>
+            #else
+            <em class="header-name_em qvyu"></em>
+            #end
+            <span class="header-name_span">$!{city-gallery.title}</span>
+        </div>
+        <div class="header-tab">
+            #if($city-gallery.gallery-type == "vdistrict")
+            <ul>
+
+                #if($city-gallery.type == "qvyu")
+                #set($city-gallery-nav-length = 8)
+                #end
+                #foreach($item in $city-gallery.nav-lists)
+                    #if($item.vdistrictId != -1 && $velocityCount <= $city-gallery-nav-length)
+                        #if( $velocityCount==1 )
+                        <li class="on"><a target="_blank" href="$!{item.url}">$!{item.vdistrictName}</a></li>
+                        #else
+                        <li><a target="_blank" href="$!{item.url}">$!{item.vdistrictName}</a></li>
+                        #end
+                    #end
+                #end
+            </ul>
+            #elseif($city-gallery.gallery-type == "unitPrice")
+            <ul>
+                #foreach($item in $city-gallery.nav-lists)
+                    #if($item.min != -1 && $velocityCount <= 6)
+                        #if( $velocityCount==1 )
+                        <li class="on"><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #else
+                        <li><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #end
+                    #end
+                #end
+            </ul>
+            #else
+            <ul>
+                #foreach($item in $city-gallery.nav-lists)
+                    #if($item.enumId != -1 && $velocityCount <= 6)
+                        #if( $velocityCount==1 )
+                        <li class="on"><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #else
+                        <li><a target="_blank" href="$!{item.url}">$!{item.enumTxt}</a></li>
+                        #end
+                    #end
+                #end
+            </ul>
+            #end
+        </div>
+        <div class="header-more"><a target="_blank" href="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/">更多>></a></div>
+    </div>
+    <div class="content">
+        #set($countContentNonEmpty = 0)
+        #foreach($item in $city-gallery.lp-lists)
+            #if($velocityCount <= $city-gallery-nav-length)
+                #if($item.size() == 0)
+        <ul class="content-wrap" data-nodata="nodata">
+                #else
+        #set($countContentNonEmpty = $countContentNonEmpty + 1)
+        <ul class="content-wrap #if($countContentNonEmpty == 1)current#end">
+                #end
+            #foreach($item2 in $item)
+                #if($velocityCount <= 8)
+            <li>
+                <div class="img_wrap">
+                    <a href="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/$!{item2.pid}.html" target="_blank" class="img_link">
+                    #if($item2.projPhotoPath)
+                        <img src="$!{PHOTO_DOMAIN}$!{PHOTO_STYLE_S}$!{item2.projPhotoPath}" alt="$!{item2.projName}">
+                    #else
+                        <img src="$!{DEFAULT_PHOTO_PATH}" alt="$!{item2.projName}">
+                    #end
+                        <span class="hover-mask"></span>
+                    </a>
+
+                </div>
+                <div class="loupan"><span class="loupan-name"><a href="https://$!{cityPrefix}.$!{FOCUS_DOMAIN}.cn/loupan/$!{item2.pid}.html" title="$!{item2.projName}" target="_blank">$!{item2.projName}</a></span><span class="loupan-location">$!{item2.districtNames[0]}</span></div>
+                <div class="price">
+                #set($item2PriceUint = "")
+                #set($item2PriceUintStart = "")
+                #set($item2PriceRMB = "￥")
+                #set($item2PriceShow = "")
+                #if($item2.priceType == 0)
+                    #set($item2PriceRMB = "")
+                    #set($item2PriceShow = "待定")
+                #elseif($item2.priceType == 1)
+                    #set($item2PriceUint = "元/㎡")
+                #elseif($item2.priceType == 2)
+                    #set($item2PriceUint = "万元/套")
+                #end
+
+                #if($item2.lowPriceDisplay != "")
+                    #set($item2PriceShow = $item2.lowPriceDisplay)
+                    #set($item2PriceUintStart = "起")
+                #elseif($item2.avgPriceDisplay != "")
+                    #set($item2PriceShow = $item2.avgPriceDisplay)
+                #elseif($item2.highPriceDisplay != "")
+                    #set($item2PriceShow =  $item2.highPriceDisplay)
+                #end
+
+                <span class="tag">$!{item2PriceRMB}</span><span class="price-detail">${item2PriceShow}</span><span class="danwei">${item2PriceUint}${item2PriceUintStart}</span>
+                </div>
+                #*<div class="price"><span class="tag">￥</span><span class="price-detail">#if($item2.showPrice)$!{item2.showPrice}#elseif($item2.showAllPrice)$!{item2.showAllPrice}#else待定#end</span><span class="danwei">#if($item2.showPrice)元/㎡#elseif($item2.showAllPrice)万元/套#else#end</span></div>*#
+                <div class="marker">
+                    #foreach($item3 in $item2.projFeatureDesc)
+                    <em>$!{item3}</em>
+                    #end
+                </div>
+            </li>
+                #end
+            #end
+        </ul>
+            #end
+        #end
+
+    </div>
+</div>
+
+                <!-- left module3 end -->
+            </div>
+            <div class="row-right">
+                <!-- right module3 -->
+                
+#if($developer-hot-list-list.size() > 0)
+    #set($developer-hot-list = $developer-hot-list-list[0])
+#else
+    #set($developer-hot-list = {})
+#end
+#* 由于为公用的模块，page =1 表示新闻页 page ==2 表示城市首页
+page ==3 表示开发商列表页*#
+<div node-type="module" class="module-developer-hot-list #if($develop-list.page==1) news #elseif($develop-list.page==2) city-index #elseif($develop-list.page==3) develop-list #end">
+    #if($developer-hot-list.page == 2)
+    <div class="header">
+        <div class="header-line"></div>
+        <p class="header-title">热门开发商</p>
+    </div>
+    #else
+    <h2 class="title">热门开发商</h2>
+    #end
+    <ul class="developer-hot-list">
+        #foreach($hotItem in $developer-hot-list.list)
+            #if($velocityCount <= 5)
+        <li class="developer-hot-item global-clearfix">
+            <a class="img-link" href="https://mp.${FOCUS_DOMAIN}.cn/profile/$!{hotItem.uid}.html" target="_blank" title="$!{hotItem.accountName}">
+                #if($hotItem.headUrl)
+                <img src="$!{PHOTO_DOMAIN}/sh90x90sh$!{hotItem.headUrl}" alt="$!{hotItem.accountName}">
+                #else
+                <img src="$!{DEFAULT_PHOTO_PATH}" alt="$!{hotItem.accountName}">
+                #end
+            </a>
+            <div class="developer-hot-item-left">
+                <a class="build-name" href="https://mp.${FOCUS_DOMAIN}.cn/profile/$!{hotItem.uid}.html" target="_blank" title="$!{hotItem.accountName}" node-type="item-title">$!{hotItem.accountName}</a>
+                <p class="build-des" node-type="item-content-limited" data-height="60" title="$!{hotItem.provinceName}$!{hotItem.cityName}$!{hotItem.addressDetail}">$!{hotItem.provinceName}$!{hotItem.cityName}$!{hotItem.addressDetail}</p>
+            </div>
+        </li>
+            #end
+        #end
+    </ul>
+</div>
+
+                <!-- right module3 end -->
+            </div>
+        </div>
+        <div id="bd-row4" class="bd-row global-clearfix">
+            <div class="row-left">
+                <!-- left module4 -->
+                
+#if($city-jiaju-list.size() > 0)
+    #set($city-jiaju = $city-jiaju-list[0])
+#else
+    #set($city-jiaju = {})
+#end
+<div node-type="module" class="module-city-jiaju">
+    <div class="header global-clearfix">
+        <p class="title">家居</p>
+        <ul class="nav-list global-clearfix">
+            #foreach($item in $city-jiaju.navList )
+                <li class="nav-item"><a target="_blank" class="nav-link" href="$!{item.link}">$!{item.title}</a></li>
+            #end
+        </ul>
+    </div>
+    <div class="city-jiaju-body global-clearfix">
+        <div class="city-jiaju-body-l global-clearfix">
+            #foreach($item in $city-jiaju.options )
+                <div class="product-item">
+                    <a target="_blank" class="pro-title" href="$!{item.url}">$!{item.name}</a>
+                    <p class="pro-list global-clearfix">
+                        #foreach($item2 in $item.items )
+                        <a target="_blank" class="pro-link" href="$!{item2.url}">$!{item2.name}</a>
+                        #end
+                    </p>
+                </div>
+            #end
+        </div>
+        <ul class="city-jiaju-body-r global-clearfix">
+            #foreach($item in $city-jiaju.dataList )
+            <li class="jiajv-case-item">
+                <a target="_blank" class="jiajv-case-img-box" href="$!{item.url}" title="$!{item.title}" data-src="$!{item.cover}">
+                    <img class="jiajv-case-img" src="$!{item.cover}" alt="$!{item.title}">
+                    <span class="white-mask"></span>
+                    <!-- <p class="jiajv-case-img-des">
+                        <span class="jiajv-case-huxing">item.fengge</span>
+                        <span class="jiajv-case-size">item.area</span>
+                    </p> -->
+                </a>
+                <p class="jiajv-case-txt">
+                    <a target="_blank" class="jiajv-case-name" href="$!{item.url}" title="$!{item.title}">$!{item.title}</a>
+                    <!-- <span class="jiajv-case-price">item.description</span> -->
+                </p>
+            </li>
+            #end
+        </ul>
+    </div>
+</div>
+
+                <!-- left module4 end -->
+            </div>
+            <div class="row-right">
+                <!-- right module4 -->
+                
+#if($city-jiajv-baoming-list.size() > 0)
+    #set($city-jiajv-baoming = $city-jiajv-baoming-list[0])
+#else
+    #set($city-jiajv-baoming = {})
+#end
+<div node-type="module" class="module-city-jiajv-baoming" data-cityid="$!{cityId}">
+    <div class="header">
+        <div class="header-line"></div>
+        <a href="javascript:;" class="header-title">免费家装设计</a>
+    </div>
+    <div class="jj-right-form">
+        <div class="p">
+            <span class="jj-error"></span>
+            <input type="text" data-value="您的姓名" value="您的姓名" class="jj-input jj-name" style="color: rgb(153, 153, 153);">
+        </div>
+        <div class="p">
+            <span class="jj-error"></span>
+            <input type="text" data-value="您的手机号" value="您的手机号" class="jj-input jj-tel">
+        </div>
+        <div class="p">
+            <div class="jj-city">
+                <span class="jj-error"></span>
+                <em>您所在城市</em>
+                <ul>
+                    #foreach($cityItem in $homeCityList)
+                    <li cityid="${cityItem.cityId}">${cityItem.cityName}</li>
+                    #end
+                </ul>
+            </div>
+            <div class="jj-area"><span class="jj-error"></span><input type="text" class="" data-value="房屋面积" value="房屋面积" class="jj-area"><span class="pingmi">㎡</span></div>
+        </div>
+        <a href="#" class="jj-yj-link">立即预约</a>
+            <div class="jj-checkbox">
+                <span node-type="home-checkbox" class="checkbox checked" for="statement1"></span>
+                <label class="check-text" for="statement1">我已阅读并接受《<a href="http://home.focus.cn/article/ce38s" target="_blank">装修常见问题条款</a>》<input type="checkbox" name="statement" value="1" id="statement1" class="statement" checked="checked" style="display: none;" node-type="home-checkbox-agree"><span class="jj-error"></span>
+            </label></div>
+    </div>
+    <div class="jj-right-form-suc" style="display: none;">
+        <p class="suc-txt">预约成功！稍后搜狐焦点装修管家会通过电话联系您，本次服务完全免费。</p>
+        <div class="ewm-p">
+            <p>微信扫一扫，关注焦点家居</p>
+            <img src="https://3074a34158850.cdn.sohucs.com/bp_ee323ca1598144078f23f986b87a21df?1483013147997">
+        </div>
+    </div>
+    <a class="jiaju-ad-link" href="${homePcData.right.url}" title="${homePcData.right.title}" target="_blank" node-type="ad">
+        <img class="jiaju-ad-img" src="$!{homePcData.right.cover}" alt="广告图片">
+        <div class="ad_mark"></div>
+    </a>
+</div>
+
+                <!-- right module4 end -->
+            </div>
+        </div>
+    </div>
+    <div id="cfloat">
+        <!-- float modules -->
+        
+#if($common-float-list.size() > 0)
+    #set($common-float = $common-float-list[0])
+#else
+    #set($common-float = {})
+#end
+<div node-type="module" class="module-common-float" data-cityid="${cityId}" data-opca="$!{common-float.opacity}" data-pname="$!{common-float.pname}" data-source="$!{common-float.source}" data-infoid="$!{common-float.infoId}" data-mp="$!{common-float.ismp}">
+    <a class="common-float-item ruzhu" href="javascript:;"></a>
+    <a class="common-float-item feedback" href="javascript:;"></a>
+    <a class="common-float-item error" href="javascript:;"></a>
+    <a href="#" class="common-float-item top"></a>
+</div>
+        <!-- float modules end -->
+    </div>
+    <footer id="ft">
+        <!-- foot modules -->
+        
+#if($footer-list.size() > 0)
+    #set($footer = $footer-list[0])
+#else
+    #set($footer = {})
+#end
+<div node-type="module" class="module-footer">
+    <div class="h-area">
+        <div class="foot-copy">
+            <p><a rel="nofollow" href="mailto:realbjhouse@sohu.com" target="_blank">欢迎来信</a><em>|</em>
+                <a rel="nofollow" href="https://house.focus.cn/aboutus/mianzeshengming.html" target="_blank">免责声明</a><em>|</em>
+                <a rel="nofollow" href="https://house.focus.cn/aboutus/xinfangguanggao.html" target="_blank">广告服务</a><em>|</em>
+                <a rel="nofollow" href="https://house.focus.cn/aboutus/xinfanglianxi.html"
+                   target="_blank">联系我们</a><em>|</em>
+                <a rel="nofollow" href="https://house.focus.cn/jiameng/juejin.php" target="_blank">加盟合作</a></p>
+            <p>Copyright <span class="fontArial">©</span> 2016 Sohu.com Inc. All Rights Reserved. 搜狐公司 <span
+                    class="unline"><a href="https://house.focus.cn/aboutus/banquanshengming.html"
+                                      target="_blank">版权所有</a></span></p>
+        </div>
+        <div class="sohu_linka">
+            <p>增值电信业务经营许可证B2-20040144 京ICP证030367号 </p>
+            <p><a rel="nofollow" href="https://images.house.focus.cn/img/focus_news_certi.JPG" target="_blank">互联网新闻信息服务许可证</a>
+                <a href="https://www.sohu.com/upload/uiue20140718/vz_sohu.html" target="_blank" rel="nofollow">信息网络传播视听节目许可证 </a>
+            </p>
+            <p><a target="_blank" href="https://www.sohu.com/upload/uiue20141205/web2014.html" rel="nofollow">网络文化经营许可证
+                京网文【2014】0935-235号 </a></p>
+        </div>
+    </div>
+</div>
+
+        <!-- foot modules end -->
+    </footer>
+</div>
+<!-- out of page modules -->
+
+#if($common-float-dlg-list.size() > 0)
+    #set($common-float-dlg = $common-float-dlg-list[0])
+#else
+    #set($common-float-dlg = {})
+#end
+
+<!-- out of page modules end -->
+
+
+<!-- export js -->
+
+
+
+
+
+    <script type="text/javascript" src="http://127.0.0.1:3000/resource/build/global.min.js?1488350382629"></script>
+    <script type="text/javascript" src="http://127.0.0.1:3000/resource/build/city-index.min.js?1488350382629"></script>
+
+
+<!-- pv 统计 -->
+<script type="text/javascript">var _focus_pv_id = "focus.shengtai.all";</script>
+<script type="text/javascript" src="https://js.sohu.com/mail/pv/pv_v211.js"></script>
+
+</body>
+</html>

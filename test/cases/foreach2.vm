@@ -1,0 +1,23 @@
+<div>循环计数
+#foreach( $customer in $customerList )
+    $foreach.count
+#end
+</div>
+<div>
+keySet
+#foreach( $key in $allProducts.keySet() )
+    <li>$foreach.count: $key -> Value: $allProducts.get($key)</li>
+#end
+</div>
+<div>
+范围操作符 m > n
+#foreach($a in [1..5])
+$a
+#end
+</div>
+<div>
+范围操作符 m < n
+#foreach($a in [5..-1])
+$a
+#end
+</div>

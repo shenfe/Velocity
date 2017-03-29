@@ -1,0 +1,6 @@
+## 输出未声明的变量
+#set($obj = "123")
+$obj.a
+${obj.a}
+#if(!$!{obj.a})wtf#end
+$!obj.a

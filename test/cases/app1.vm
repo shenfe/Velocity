@@ -1,0 +1,10 @@
+#if($name == 125)
+obj
+#foreach($key in $list)
+$key.b
+#end
+#else
+#foreach($key in $list2)
+$key
+#end
+#end

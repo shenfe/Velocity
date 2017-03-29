@@ -1,0 +1,34 @@
+
+#foreach($key in ["a","b"])
+$key: $map.get($key)
+#end
+
+$map.keySet()
+
+#foreach($key in $map.keySet())
+$map.get($key)
+#end
+
+
+
+<div>array</div>
+<ul>
+#foreach ($item in ${list})
+    <li>角色：${item.role} 姓名：${item.name}</li>
+#end
+#foreach ($item in ["胡八一", "王凯旋", "大金牙"])
+    <li>$item</li>
+#end
+#foreach ($item in [1..5])
+    <li>$item</li>
+#end
+</ul>
+
+#foreach($key in $keys)
+$key
+#end
+
+
+#foreach($key in $list[0].keySet())
+$list[0].get($key)
+#end

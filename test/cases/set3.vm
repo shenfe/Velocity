@@ -1,0 +1,53 @@
+## sigle/double quote
+#set( $directoryRoot = "www" )
+#set( $templateName = "index.vm" )
+#set( $template = "$directoryRoot/$templateName" )
+<div>$template</div>
+
+#set( $foo = "bar" )
+$foo
+#set( $blargh = "$foo" )
+$blargh
+
+
+#set( $directoryRoot=1 )
+#set($ex = $directoryRoot +1)
+$ex
+#set($ex = "${directoryRoot}${directoryRoot}")
+$ex
+
+
+
+
+
+#set( $directoryRoot=1 )
+#set($ex = $directoryRoot +1)
+$ex
+#set($ex = "${directoryRoot}${directoryRoot}")
+$ex
+
+
+
+#set($a=1)
+$a
+#set($b="$a")
+$b
+
+#set($c={"a":${a}})
+$c.a
+
+
+
+
+
+#set($abc={
+"age2":"${directoryRoot}${directoryRoot}",
+"age3":"$directoryRoot$directoryRoot",
+"age": $directoryRoot
+})
+
+${abc.age}
+${abc.age2}
+${abc.get("age")}
+#set($name = "age")
+$abc.get(${name})
