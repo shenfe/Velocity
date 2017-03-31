@@ -33,12 +33,12 @@ var getCaseList = function (callback) {
 
 var _process = function (vm, json) {
     /** 直接render **/
-    // $('#output1').html(window.velocity.render(vm, json));
+    $('#output1').html(window.velocity.render(vm, json));
 
     /** 先编译成function，再对数据执行 **/
-    var p = window.velocity.compile(vm, { raw: true });
-    console.log('parser: ', p);
-    $('#output1').html((new Function('data', p))(json));
+    // var p = window.velocity.compile(vm, { raw: true });
+    // console.log('parser: ', p);
+    // $('#output1').html((new Function('data', p))(json));
 };
 
 var getJavaResultOfCase = function (id) {

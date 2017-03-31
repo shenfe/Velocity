@@ -304,22 +304,27 @@ MultiplicativeExpression "21"
 }
 
 StringLiteral "22"
-= Quotation_mark chars:(ReferenceRender / Char / Quotation_mark_escaped)* Quotation_mark {
+= Quotation_mark chars:(ReferenceRender / UnescapedChar / Char / Quotation_mark_escaped)* Quotation_mark {
     return {
         parts: chars,
         _: '22'
     };
 }
-/ Quotation_mark_raw chars_raw:(Char / Quotation_mark_raw_escaped)* Quotation_mark_raw {
+/ Quotation_mark_raw chars_raw:(UnescapedChar_raw / Char / Quotation_mark_raw_escaped)* Quotation_mark_raw {
     return {
-        parts: chars_raw,
+        parts: [chars_raw.join('')],
         _: '22'
     };
 }
 
+UnescapedChar
+= !(Quotation_mark / Escape / EOL) . { return text(); }
+
+UnescapedChar_raw
+= !(Quotation_mark_raw / Escape / EOL) . { return text(); }
+
 Char
-= Unescaped
-/ Escape sequence:(
+= Escape sequence:(
     "\\"
     / "/"
     / "b" { return '\b'; }
@@ -346,9 +351,6 @@ Quotation_mark_raw
 
 Quotation_mark_raw_escaped
 = Escape "'" { return "'"; }
-
-Unescaped
-= [^\0-\x1F\x22\x5C]
 
 PositiveIntegerLiteral
 = [1-9] [0-9]*
