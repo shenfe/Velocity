@@ -4842,6 +4842,7 @@ class Main {
     private $cache;
     private $compile_dir;
     private $compile_check;
+    private $console = false;
 
     function __construct ($dir = null, $check = false) {
         $this->parser = new Parser;
@@ -4862,7 +4863,7 @@ class Main {
         if ($this->compile_check) {
             $mtime = filemtime($path);
             if (!$mtime) {
-                echo "Fail to get filemtime: $path\n";
+                if ($this->console) echo "Fail to get filemtime: $path\n";
             } else {
                 $h .= '_' . $mtime;
             }
@@ -4883,7 +4884,7 @@ class Main {
                 } else {
                     $tmpl = file_get_contents($tmplpath);
                     if ($tmpl === false) {
-                        echo 'File not found: ' . $tmplpath . "\n";
+                        if ($this->console) echo 'File not found: ' . $tmplpath . "\n";
                         return '';
                     }
                     $root = $this->parser->parse($tmpl);
@@ -4895,7 +4896,7 @@ class Main {
                     . ' At line ' . $ex->grammarLine
                     . ' column ' . $ex->grammarColumn
                     . ' offset ' . $ex->grammarOffset;
-                echo $message . "\n";
+                if ($this->console) echo $message . "\n";
             }
         }
         if (isset($data) || $clear) $this->executor->set_data($data, $clear);
