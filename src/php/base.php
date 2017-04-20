@@ -8,7 +8,7 @@ include "./velocity.php";
 
 class executor_factory {
     static private function bool_of_value ($v) {
-        return !empty($v) || $v === 0 || $v === '';
+        return is_array($v) || is_object($v) || !empty($v) || $v === 0 || $v === '';
     }
     static private function type_of_value ($v) {
         if (is_string($v)) return 1;
