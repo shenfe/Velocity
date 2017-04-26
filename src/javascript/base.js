@@ -19,10 +19,10 @@ var executorFactory = function () {
             var key, valType;
             for (var i = 1; i < len; i++) {
                 key = keys[i];
-                valType = Object.prototype.toString.call(val);
+                valType = (val === undefined) ? '[object Undefined]' : Object.prototype.toString.call(val);
                 if (key.type === 3
                     && (ref === 'get' || ref === 'keySet' || ref === 'substring' || ref === 'length' || ref === 'size')) {
-                    var dataType = Object.prototype.toString.call(data);
+                    var dataType = (data === undefined) ? '[object Undefined]' : Object.prototype.toString.call(data);
                     var exec = true;
                     var wrongType = false;
                     switch (ref) {
@@ -236,7 +236,7 @@ var executorFactory = function () {
                 return r.bang ? '' : this.text;
             }
             var stringify = function (v) {
-                var vtype = Object.prototype.toString.call(v);
+                var vtype = (v === undefined) ? '[object Undefined]' : Object.prototype.toString.call(v);
                 if (vtype === '[object Array]') {
                     var vs = [];
                     for (var i = 0, len = v.length; i < len; i++) {
