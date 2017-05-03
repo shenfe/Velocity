@@ -4394,11 +4394,11 @@ class executor_factory {
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
     static private function key_or_property_exists ($v, $key) {
-        if (is_numeric($key) && (string)((int)($key)) === $key) $key = (int)$key;
+        if (is_numeric($key) && (string)((int)($key)) === (string)$key) $key = (int)$key;
         return is_array($v) ? array_key_exists($key, $v) : property_exists($v, $key);
     }
     static private function & ref_of_elem (&$v, $key) {
-        if (is_numeric($key) && (string)((int)($key)) === $key) $key = (int)$key;
+        if (is_numeric($key) && (string)((int)($key)) === (string)$key) $key = (int)$key;
         $re = is_array($v) ? $v[$key] : $v->{$key};
         return $re;
     }
