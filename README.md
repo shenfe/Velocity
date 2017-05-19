@@ -1,3 +1,5 @@
+# Velocity
+
 ## 运行程序
 
 `/server.js`
@@ -22,7 +24,7 @@
 
 `/build_*.js`
 
-将`/src/[javascript/php]`（各语言版本源码目录）中的`*.pegjs`语法文件build成parser，与源码结合，生成`/src/[lang]/velocity.[js/php]`。
+将`/src/[javascript/php]`（对应语言版本源码目录）中的`*.pegjs`语法文件build成parser，与源码结合，生成`/src/[javascript/php]/velocity.[js/php]`。
 
 
 ## 文件结构
