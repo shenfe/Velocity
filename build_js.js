@@ -30,7 +30,7 @@ var build = function () {
     var parserStr = peg.generate(pegStr, opts);
     console.log('peg parser generation done');
     var baseStr = fs.readFileSync(base_file, 'utf-8');
-    var funcStr = `var ${randStr} = (function () { ${parserStr} ${baseStr} })(); ${moduleStr}`;
+    var funcStr = `var ${randStr} = new (function () { ${parserStr} ${baseStr} })(); ${moduleStr}`;
     fs.writeFileSync(js_file, funcStr);
     console.log('writing js module file done');
 };
