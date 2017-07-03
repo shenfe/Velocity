@@ -14,16 +14,9 @@ var peg = require('pegjs');
 var pegjs_dev_file = './src/javascript/velocity.pegjs';
 var js_file = './src/javascript/velocity.js';
 var base_file = './src/javascript/base.js';
+var module_file = './src/javascript/module.js';
 var randStr = 'func_' + Date.now();
-var moduleStr = `
-if (typeof exports !== 'undefined') {
-    if (typeof module !== 'undefined' && module.exports) {
-        exports = module.exports = ${randStr};
-    }
-} else {
-    window.velocity = ${randStr};
-}
-`;
+var moduleStr = fs.readFileSync(module_file, 'utf-8').split('__varName__').join(randStr);
 
 var build = function () {
     var pegStr = fs.readFileSync(pegjs_dev_file, 'utf-8');
