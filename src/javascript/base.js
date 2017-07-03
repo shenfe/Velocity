@@ -393,6 +393,59 @@ var executorFactory = function () {
 var _vlct = this['velocity'];
 
 var expo = {
+    context: function (data) {
+        var context = executorFactory();
+        var patch = function (s, data) {
+            for (var i in data) {
+                if (!data.hasOwnProperty(i)) continue;
+                if (Object.prototype.toString.call(s[i]) !== '[object Object]'
+                    || Object.prototype.toString.call(data[i]) !== '[object Object]') {
+                    s[i] = data[i];
+                    continue;
+                }
+                patch(s[i], data[i]);
+            }
+        };
+        var history = '';
+        this.execute = function (tmpl, data, dataLevel) {
+            // dataLevel: 0: set and not patch; 1: set and patch; 2: reset
+            if (!dataLevel) this.set(data);
+            else if (dataLevel === 1) this.set(data, true);
+            else this.reset(data);
+            
+            var output = context.run(_vlct.parse(tmpl));
+            history += output;
+            return {
+                data: context.scope,
+                output: output,
+                history: history
+            };
+        };
+        this.render = function (tmpl, data) {
+            return this.execute(tmpl, data).output;
+        };
+        this.set = function (data, isPatching) {
+            data = data || {};
+            var s = context.scope.$this;
+            for (var i in data) {
+                if (!data.hasOwnProperty(i)) continue;
+                if (!isPatching || (Object.prototype.toString.call(s[i]) !== '[object Object]'
+                                    || Object.prototype.toString.call(data[i]) !== '[object Object]')) {
+                    s[i] = data[i];
+                    continue;
+                }
+                patch(s[i], data[i]);
+            }
+        };
+        this.reset = function (data) {
+            context.scope = { $this: data || {} };
+        };
+        this.empty = function () {
+            history = '';
+        };
+        
+        this.reset(data);
+    },
     render: function (tmpl, data) {
         var root = _vlct.parse(tmpl);
         var render = executorFactory();
