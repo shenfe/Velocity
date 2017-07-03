@@ -1,7 +1,7 @@
 if (typeof exports !== 'undefined') {
     if (typeof module !== 'undefined' && module.exports) {
-        exports = module.exports = ${randName};
+        exports = module.exports = __varName__;
     }
 } else {
-    window.velocity = ${randName};
+    window.velocity = __varName__;
 }
