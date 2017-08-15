@@ -2,13 +2,13 @@
 
 Velocity模板引擎，JavaScript和PHP两个版本。Apache官方Java版本见[velocity.apache.org](http://velocity.apache.org/)。
 
-## Usage
+## 快速使用
 
-### JavaScript
+### JavaScript版本
 
 引入`velocity.js`文件（支持模块化）后，全局变量velocity（如果是模块则导出该变量）包含两个property：render纯函数、compile纯函数。
 
-#### render
+#### 模板渲染
 
 `render`方法将一个vm模板字符串和一个数据对象合成一段字符串，例如：
 
@@ -21,7 +21,7 @@ var data = {
 window.velocity.render(tmpl, data); // "My name is June. I'm a girl."
 ```
 
-#### compile
+#### 模板编译
 
 `compile`方法将一个vm模板字符串编译成一个函数（或函数体字符串，用于写入js文件），例如：
 
@@ -39,7 +39,7 @@ render(data); // "My name is June. I'm a girl."
 (new Function('data', render_raw))(data); // "My name is June. I'm a girl."
 ```
 
-### PHP
+### PHP版本
 
 引入`velocity.php`文件后，命名空间PhpVelocity的Main类通过构造方法设置编译路径和vm文件更新检查开关；通过render方法将指定路径的vm文件与数据合成字符串，并可设置清除以往数据。例如：
 
@@ -59,7 +59,7 @@ $data = array("name" => "Apple", "price" => 10000);
 echo $ve->render('path/to/template3.vm', $data, true); // 渲染模板和数据，清除以往数据
 ```
 
-## Development
+## 开发和测试
 
 `/server.js`: 运行WYSIWYG的web程序。
 
@@ -72,7 +72,7 @@ echo $ve->render('path/to/template3.vm', $data, true); // 渲染模板和数据�
 `/build_*.js`: 将`/src/[javascript/php]`（对应语言版本源码目录）中的`*.pegjs`语法文件build成parser，与源码结合，生成`/src/[javascript/php]/velocity.[js/php]`。
 
 
-## Project Structure
+## 项目结构
 
 `/src/antlr`: velocity的antlr范式开发。
 
