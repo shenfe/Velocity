@@ -188,8 +188,8 @@ var executorFactory = function () {
                     keys.push(i);
                 }
                 if (!toBreak) {
-                    keys.sort();
-                    if (keys[0] === 0 && keys.length - 1 === keys[keys.length - 1]) {
+                    keys.sort(function (a, b) { return a - b; });
+                    if (keys.length - 1 === keys[keys.length - 1]) {
                         var listData = [];
                         for (var i = 0, len = keys.length; i < len; i++) {
                             listData.push(list[i]);
