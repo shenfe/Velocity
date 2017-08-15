@@ -174,6 +174,31 @@ var executorFactory = function () {
             };
             executor.scope['$velocityCount'] = -1;
             var list = executor.run(this.data);
+
+            if (Object.prototype.toString.call(list) === '[object Object]') {
+                var keys = [];
+                var toBreak = false;
+                for (var k in list) {
+                    if (!list.hasOwnProperty(k)) continue;
+                    var i = parseInt(k);
+                    if (isNaN(i) || String(i) !== k) {
+                        toBreak = true;
+                        break;
+                    }
+                    keys.push(i);
+                }
+                if (!toBreak) {
+                    keys.sort();
+                    if (keys[0] === 0 && keys.length - 1 === keys[keys.length - 1]) {
+                        var listData = [];
+                        for (var i = 0, len = keys.length; i < len; i++) {
+                            listData.push(list[i]);
+                        }
+                        list = listData;
+                    }
+                }
+            }
+
             return {
                 error: Object.prototype.toString.call(list) !== '[object Array]',
                 key: this.id,
