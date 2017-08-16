@@ -92,6 +92,12 @@ echo $ve->render('path/to/template3.vm', $data, true); // 渲染模板和数据�
 
 `/test/*/output/*.html`: 各语言版本的TestRunner的输出，每个输出文件对应一个case。
 
+## More
+
+* [velocity](http://velocity.apache.org/)
+* [pegjs](https://github.com/pegjs/pegjs)
+* [phpegjs](https://github.com/nylen/phpegjs)
+
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
