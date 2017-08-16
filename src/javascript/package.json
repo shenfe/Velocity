@@ -1,0 +1,24 @@
+{
+  "name": "velocity-template-engine",
+  "version": "1.0.0",
+  "description": "velocity template engine",
+  "main": "velocity.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shenfe/Velocity.git"
+  },
+  "keywords": [
+    "velocity",
+    "template",
+    "engine"
+  ],
+  "author": "hengwu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shenfe/Velocity/issues"
+  },
+  "homepage": "https://github.com/shenfe/Velocity#readme"
+}
