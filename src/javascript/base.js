@@ -479,13 +479,13 @@ var expo = {
     },
     compile: function (tmpl, opt) {
         var root = _vlct.parse(tmpl);
-        if (opt && opt.raw) {
+        if (opt && (opt === true || opt.raw)) {
             // var findNodeType = function (nodeStr, type) {
             //     return (nodeStr.indexOf('"$":"' + type + '"') > 0);
             // };
             return 'var root = ' + JSON.stringify(root) + '; '
                 + 'var render = (' + executorFactory.toString() + ')(); '
-                + 'render.scope = { $this: data || {} }; '
+                + 'render.scope = { $this: arguments[0] || {} }; '
                 + 'return render.run(root);';
         } else {
             var render = executorFactory();
