@@ -36,7 +36,7 @@ var data = {
 };
 
 render(data); // "My name is June. I'm a girl."
-(new Function('data', render_raw))(data); // "My name is June. I'm a girl."
+(new Function(render_raw))(data); // "My name is June. I'm a girl."
 ```
 
 ### PHP版本
