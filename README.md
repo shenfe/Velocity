@@ -2,6 +2,8 @@
 
 Implementations of [Apache Velocity](http://velocity.apache.org/) template engine，including versions of JavaScript and PHP.
 
+<p align="center"><img src="https://raw.githubusercontent.com/shenfe/Velocity/master/readme_assets/logos.png"></p>
+
 ## Quick Start
 
 ### JavaScript Version
