@@ -4,7 +4,7 @@ This is a JavaScript implementation of [Apache Velocity](http://velocity.apache.
 
 <p align="center">
     <img src="https://raw.githubusercontent.com/shenfe/Velocity/master/readme_assets/velocity-logo.png">
-    <img width="60" height="60" src="https://raw.githubusercontent.com/shenfe/Velocity/master/readme_assets/javascript-logo.png">
+    <img width="60" height="60" src="https://raw.githubusercontent.com/shenfe/Velocity/master/readme_assets/javascript-logo.png">
 </p>
 
 ## Quick Start
