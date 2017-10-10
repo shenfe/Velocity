@@ -8,7 +8,7 @@ Velocity模板引擎，JavaScript和PHP两个版本。Apache官方Java版本见[
 
 ### JavaScript版本
 
-引入`velocity.js`文件（支持模块化）后，全局变量velocity（如果是模块则导出该变量）包含两个property：render纯函数、compile纯函数。
+建议使用npm安装`velocity-template-engine`。模块包含两个property：render纯函数、compile纯函数。
 
 #### 模板渲染
 
