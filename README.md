@@ -1,5 +1,7 @@
 <h1 align="center">Velocity Template Engine</h1>
 
+[中文文档](https://github.com/shenfe/Velocity/blob/master/README-zh_CN.md)
+
 Implementations of [Apache Velocity](http://velocity.apache.org/) template engine，including versions of JavaScript and PHP.
 
 <p align="center"><img src="https://raw.githubusercontent.com/shenfe/Velocity/master/readme_assets/logos.png"></p>
