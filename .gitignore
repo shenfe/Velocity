@@ -9,3 +9,6 @@ npm-debug.log
 *.idea*
 /test/trashes/*
 *.output/*
+package-lock.json
+..gitignore*
+.gitignore~

@@ -12,10 +12,21 @@ Statements "0"
 }
 
 Statement
-= UnparsedText / Comments / SetStatement / ForeachStatement / IfStatement / DefineStatement
+= SpecStatement
+/ RawText / S_ELSEIF { return text() } / S_ELSE { return text() } / S_END { return text() }
+/ "$" / "#"
+
+SpecStatement
+= UnparsedText
+/ Comments
+/ SetStatement
+/ ForeachStatement
+/ IfStatement
+/ DefineStatement
+/ MacroStatement
 / Comment { return ''; }
+/ MacroExecStatement
 / ReferenceRender
-/ RawText
 
 S_UNPARSED_BEGIN    = "#[["
 S_UNPARSED_END      = "]]#"
@@ -28,14 +39,16 @@ S_IF                = "#if"
 S_ELSEIF            = "#elseif"
 S_ELSE              = "#{else}" / ("#else" ![0-9a-zA-Z_-])
 S_DEFINE            = "#define"
+S_MACRO             = "#macro"
 S_END               = "#end" / "#{end}"
-S_BEGIN             = "$" / S_UNPARSED_BEGIN / S_COMMENT / S_COMMENTS_BEGIN / S_SET / S_FOREACH / S_IF / S_DEFINE
+S_MACROEXEC         = "#" Identifier
+S_TOKEN             = "$" / S_UNPARSED_BEGIN / S_COMMENT / S_COMMENTS_BEGIN / S_SET / S_FOREACH / S_IF / S_DEFINE / S_MACRO / S_MACROEXEC
 
 RawText
-= $(RawTextInner+) / S_BEGIN
+= $(RawTextInner+)
 
 RawTextInner
-= [^$#] / (!(S_BEGIN / S_ELSEIF / S_ELSE / S_END) .)
+= [^$#]
 
 UnparsedText
 = S_UNPARSED_BEGIN t:$(UnparsedTextInner*) S_UNPARSED_END {
@@ -57,10 +70,10 @@ CommentsInner
 = !S_COMMENTS_END .
 
 IfStatement "1"
-= S_IF L_R_BRAC e:Expression R_R_BRAC _ s:Statements _ elifs:(ElseIfStatement)* _ el:ElseStatement? _ S_END {
+= S_IF L_R_BRAC e:Expression R_R_BRAC _ s:(!(S_ELSEIF / S_ELSE / S_END) Statement)* _ elifs:(ElseIfStatement)* _ el:ElseStatement? _ S_END {
     return {
         e: e,
-        s: s.s,
+        s: s.map(item => item[1]),
         elifs: (elifs && elifs.length) ? elifs : undefined,
         el: el || undefined,
         _: '1'
@@ -68,22 +81,48 @@ IfStatement "1"
 }
 
 ElseIfStatement
-= S_ELSEIF L_R_BRAC e:Expression R_R_BRAC _ s:Statements {
+= S_ELSEIF L_R_BRAC e:Expression R_R_BRAC _ s:(!(S_ELSEIF / S_ELSE / S_END) Statement)* {
     return {
         e: e,
-        s: s.s
+        s: s.map(item => item[1])
     };
 }
 
 ElseStatement
-= S_ELSE s:Statements { return s.s; }
+= S_ELSE s:(!S_END Statement)* { return s.map(item => item[1]); }
 
 DefineStatement "23"
-= S_DEFINE L_R_BRAC _ "$" body:ReferenceBody R_R_BRAC _ s:Statements _ S_END {
+= S_DEFINE L_R_BRAC _ "$" body:ReferenceBody R_R_BRAC _ s:(!S_END Statement)* _ S_END {
     return {
         body: body,
-        s: s.s,
+        s: s.map(item => item[1]),
         _: '23'
+    };
+}
+
+MacroStatement "24"
+= S_MACRO L_R_BRAC _ name:Identifier param:(__ SingleRefernce)* R_R_BRAC _ s:(!S_END Statement)* _ S_END {
+    var params = [];
+    if (param && param.length) {
+        for (var i = 0, len = param.length; i < len; i++) {
+            params.push(param[i][1]);
+        }
+    }
+    return {
+        name: name,
+        params: params,
+        s: s.map(item => item[1]),
+        _: '24'
+    };
+}
+
+MacroExecStatement "25"
+= "#" name:Identifier L_R_BRAC args:(Expression)* R_R_BRAC {
+    return {
+        text: text(),
+        name: name,
+        args: args,
+        _: '25'
     };
 }
 
@@ -97,10 +136,10 @@ ItemInArray "2"
 }
 
 ForeachStatement "3"
-= S_FOREACH L_R_BRAC _ it:ItemInArray R_R_BRAC _ s:Statements _ S_END {
+= S_FOREACH L_R_BRAC _ it:ItemInArray R_R_BRAC _ s:(!S_END Statement)* _ S_END {
     return {
         it: it,
-        s: s.s,
+        s: s.map(item => item[1]),
         _: '3'
     };
 }
@@ -155,6 +194,10 @@ SetStatement "5"
         _: '5'
     };
 }
+
+SingleRefernce
+= "${" _ r1:Identifier R_BRACE { return r1; }
+/ "$" r2:Identifier { return r2; }
 
 Reference "6"
 = "$" bang:("!")? body:ReferenceBody {

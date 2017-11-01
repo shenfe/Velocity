@@ -7,7 +7,7 @@ var executorFactory = function () {
         var main = keys[0];
         var len = keys.length;
         var error = false;
-        var data = scope.$this, ref = main, val;
+        var data = scope, ref = main, val;
 
         if (!data.hasOwnProperty(ref)) {
             data = scope;
@@ -136,6 +136,7 @@ var executorFactory = function () {
             value: val
         };
     };
+    var macros = {};
     var executor = {
         console: false,
         _nodeType: '_',
@@ -156,6 +157,7 @@ var executorFactory = function () {
             return executor.concat(this.s);
         },
         '1': function () { // IfStatement
+            // console.log(this);
             if (boolOfValue(executor.run(this.e))) {
                 return executor.concat(this.s);
             }
@@ -254,6 +256,35 @@ var executorFactory = function () {
                 return executor.concat(s);
             });
             return '';
+        },
+        '24': function () { // MacroStatement
+            var s = this.s;
+            var params = this.params;
+            macros[this.name] = function () {
+                var args = [].slice.call(arguments, 0);
+                var scope = function () {};
+                var originalScope = executor.scope;
+                scope.prototype = originalScope;
+                var obj = new scope();
+                for (var i = 0, len = args.length; i < len; i++) {
+                    obj[params[i]] = args[i];
+                }
+                executor.scope = obj;
+                var re = executor.concat(s);
+                executor.scope = originalScope;
+                scope = null;
+                obj = null;
+                return re;
+            };
+            return '';
+        },
+        '25': function () { // MacroExecStatement
+            if (!macros[this.name]) return this.text;
+            var args = [];
+            for (var i = 0, len = this.args.length; i < len; i++) {
+                args.push(executor.run(this.args[i]));
+            }
+            return macros[this.name].apply(null, args);
         },
         '6': function () { // Reference
             var r = setValueByRef(executor.scope, executor['4'](this.body));
@@ -460,7 +491,7 @@ var expo = {
         };
         this.set = function (data, isPatching) {
             data = data || {};
-            var s = context.scope.$this;
+            var s = context.scope;
             for (var i in data) {
                 if (!data.hasOwnProperty(i)) continue;
                 if (!isPatching || (Object.prototype.toString.call(s[i]) !== '[object Object]'
@@ -472,7 +503,7 @@ var expo = {
             }
         };
         this.reset = function (data) {
-            context.scope = { $this: data || {} };
+            context.scope = data || {};
         };
         this.empty = function () {
             history = '';
@@ -483,7 +514,7 @@ var expo = {
     render: function (tmpl, data) {
         var root = _vlct.parse(tmpl);
         var render = executorFactory();
-        render.scope = { $this: data || {} };
+        render.scope = data || {};
         return render.run(root);
     },
     compile: function (tmpl, opt) {
@@ -494,12 +525,12 @@ var expo = {
             // };
             return 'var root = ' + JSON.stringify(root) + '; '
                 + 'var render = (' + executorFactory.toString() + ')(); '
-                + 'render.scope = { $this: arguments[0] || {} }; '
+                + 'render.scope = arguments[0] || {}; '
                 + 'return render.run(root);';
         } else {
             var render = executorFactory();
             return function (data) {
-                render.scope = { $this: data || {} };
+                render.scope = data || {};
                 return render.run(root);
             };
         }
