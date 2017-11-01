@@ -13,8 +13,9 @@ Statements "0"
 
 Statement
 = SpecStatement
-/ RawText / S_ELSEIF { return text() } / S_ELSE { return text() } / S_END { return text() }
-/ "$" / "#"
+/ S_ELSEIF { return text() } / S_ELSE { return text() } / S_END { return text() }
+/ [$#]
+/ $([^$#]+)
 
 SpecStatement
 = UnparsedText
@@ -41,14 +42,6 @@ S_ELSE              = "#{else}" / ("#else" ![0-9a-zA-Z_-])
 S_DEFINE            = "#define"
 S_MACRO             = "#macro"
 S_END               = "#end" / "#{end}"
-S_MACROEXEC         = "#" Identifier
-S_TOKEN             = "$" / S_UNPARSED_BEGIN / S_COMMENT / S_COMMENTS_BEGIN / S_SET / S_FOREACH / S_IF / S_DEFINE / S_MACRO / S_MACROEXEC
-
-RawText
-= $(RawTextInner+)
-
-RawTextInner
-= [^$#]
 
 UnparsedText
 = S_UNPARSED_BEGIN t:$(UnparsedTextInner*) S_UNPARSED_END {
@@ -69,11 +62,17 @@ Comments
 CommentsInner
 = !S_COMMENTS_END .
 
+NonIfEndStatement
+= !(S_ELSEIF / S_ELSE / S_END) s:Statement { return s; }
+
+NonEndStatement
+= !S_END s:Statement { return s; }
+
 IfStatement "1"
-= S_IF L_R_BRAC e:Expression R_R_BRAC _ s:(!(S_ELSEIF / S_ELSE / S_END) Statement)* _ elifs:(ElseIfStatement)* _ el:ElseStatement? _ S_END {
+= S_IF L_R_BRAC e:Expression R_R_BRAC _ s:(NonIfEndStatement)* _ elifs:(ElseIfStatement)* _ el:ElseStatement? _ S_END {
     return {
         e: e,
-        s: s.map(item => item[1]),
+        s: s,
         elifs: (elifs && elifs.length) ? elifs : undefined,
         el: el || undefined,
         _: '1'
@@ -81,27 +80,27 @@ IfStatement "1"
 }
 
 ElseIfStatement
-= S_ELSEIF L_R_BRAC e:Expression R_R_BRAC _ s:(!(S_ELSEIF / S_ELSE / S_END) Statement)* {
+= S_ELSEIF L_R_BRAC e:Expression R_R_BRAC _ s:(NonIfEndStatement)* {
     return {
         e: e,
-        s: s.map(item => item[1])
+        s: s
     };
 }
 
 ElseStatement
-= S_ELSE s:(!S_END Statement)* { return s.map(item => item[1]); }
+= S_ELSE s:(NonIfEndStatement)* { return s; }
 
 DefineStatement "23"
-= S_DEFINE L_R_BRAC _ "$" body:ReferenceBody R_R_BRAC _ s:(!S_END Statement)* _ S_END {
+= S_DEFINE L_R_BRAC _ "$" body:ReferenceBody R_R_BRAC _ s:(NonEndStatement)* _ S_END {
     return {
         body: body,
-        s: s.map(item => item[1]),
+        s: s,
         _: '23'
     };
 }
 
 MacroStatement "24"
-= S_MACRO L_R_BRAC _ name:Identifier param:(__ SingleRefernce)* R_R_BRAC _ s:(!S_END Statement)* _ S_END {
+= S_MACRO L_R_BRAC _ name:Identifier param:(__ SingleRefernce)* R_R_BRAC _ s:(NonEndStatement)* _ S_END {
     var params = [];
     if (param && param.length) {
         for (var i = 0, len = param.length; i < len; i++) {
@@ -111,7 +110,7 @@ MacroStatement "24"
     return {
         name: name,
         params: params,
-        s: s.map(item => item[1]),
+        s: s,
         _: '24'
     };
 }
@@ -136,10 +135,10 @@ ItemInArray "2"
 }
 
 ForeachStatement "3"
-= S_FOREACH L_R_BRAC _ it:ItemInArray R_R_BRAC _ s:(!S_END Statement)* _ S_END {
+= S_FOREACH L_R_BRAC _ it:ItemInArray R_R_BRAC _ s:(NonEndStatement)* _ S_END {
     return {
         it: it,
-        s: s.map(item => item[1]),
+        s: s,
         _: '3'
     };
 }
