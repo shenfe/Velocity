@@ -12,7 +12,7 @@ Statements "0"
 }
 
 Statement
-= UnparsedText / Comments / SetStatement / ForeachStatement / IfStatement
+= UnparsedText / Comments / SetStatement / ForeachStatement / IfStatement / DefineStatement
 / Comment { return ''; }
 / ReferenceRender
 / RawText
@@ -27,8 +27,9 @@ S_FOREACH           = "#foreach"
 S_IF                = "#if"
 S_ELSEIF            = "#elseif"
 S_ELSE              = "#{else}" / ("#else" ![0-9a-zA-Z_-])
+S_DEFINE            = "#define"
 S_END               = "#end" / "#{end}"
-S_BEGIN             = "$" / S_UNPARSED_BEGIN / S_COMMENT / S_COMMENTS_BEGIN / S_SET / S_FOREACH / S_IF
+S_BEGIN             = "$" / S_UNPARSED_BEGIN / S_COMMENT / S_COMMENTS_BEGIN / S_SET / S_FOREACH / S_IF / S_DEFINE
 
 RawText
 = $(RawTextInner+) / S_BEGIN
@@ -76,6 +77,15 @@ ElseIfStatement
 
 ElseStatement
 = S_ELSE s:Statements { return s.s; }
+
+DefineStatement "23"
+= S_DEFINE L_R_BRAC _ "$" body:ReferenceBody R_R_BRAC _ s:Statements _ S_END {
+    return {
+        body: body,
+        s: s.s,
+        _: '23'
+    };
+}
 
 ItemInArray "2"
 = "$" id:Identifier __ "in" __ list:(ReferenceValue / ArrLiteral) {

@@ -248,6 +248,13 @@ var executorFactory = function () {
             setValueByRef(executor.scope, executor['4'](this.body), executor.run(this.v));
             return '';
         },
+        '23': function () { // DefineStatement
+            var s = this.s;
+            setValueByRef(executor.scope, executor['4'](this.body), function () {
+                return executor.concat(s);
+            });
+            return '';
+        },
         '6': function () { // Reference
             var r = setValueByRef(executor.scope, executor['4'](this.body));
             r.bang = this.bang;
@@ -274,6 +281,8 @@ var executorFactory = function () {
                         vs.push(i + '=' + stringify(v[i]));
                     }
                     return '{' + vs.join(', ') + '}';
+                } else if (vtype === '[object Function]') {
+                    return stringify(v());
                 } else {
                     return v.toString();
                 }
