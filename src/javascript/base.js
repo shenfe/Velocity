@@ -9,7 +9,7 @@ var executorFactory = function () {
         var error = false;
         var data = scope, ref = main, val;
 
-        if (!data.hasOwnProperty(ref)) {
+        if (!(ref in data)) {
             data = scope;
             ref = '$' + main;
         }
@@ -41,7 +41,6 @@ var executorFactory = function () {
                             } else {
                                 var props = [];
                                 for (var prop in data) {
-                                    if (!data.hasOwnProperty(prop)) continue;
                                     props.push(prop);
                                 }
                                 return {
@@ -171,10 +170,6 @@ var executorFactory = function () {
             return this.el ? executor.concat(this.el) : '';
         },
         '2': function () { // ItemInArray
-            executor.scope['$foreach'] = {
-                count: -1
-            };
-            executor.scope['$velocityCount'] = -1;
             var list = executor.run(this.data);
 
             if (Object.prototype.toString.call(list) === '[object Object]') {
@@ -214,6 +209,16 @@ var executorFactory = function () {
                 return '';
             }
 
+            var scope = function () {};
+            var originalScope = executor.scope;
+            scope.prototype = originalScope;
+            var obj = new scope();
+            executor.scope = obj;
+            executor.scope['$foreach'] = {
+                count: -1
+            };
+            executor.scope['$velocityCount'] = -1;
+
             var re = '', data = iia.dataset;
             for (var i = 0, len = data.length; i < len; i++) {
                 executor.scope['$foreach'].count = i + 1;
@@ -221,6 +226,10 @@ var executorFactory = function () {
                 executor.scope['$' + iia.key] = data[i];
                 re += executor.concat(this.s);
             }
+
+            executor.scope = originalScope;
+            scope = null;
+            obj = null;
 
             return re;
         },

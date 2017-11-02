@@ -18,3 +18,6 @@ $foreach.count: $i
 $foreach.count: $j
 #end
 #end
+
+$foreach.count
+$velocityCount

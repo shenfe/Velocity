@@ -1,0 +1,6 @@
+#macro(a)
+#set($d.name = "Bob")
+${d}
+#end
+#a()
+$d

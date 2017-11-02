@@ -1,0 +1,9 @@
+#macro(a)
+#set($b = 3)
+${b}
+#set($d = 4)
+#end
+#a()
+$b
+$c
+$d
