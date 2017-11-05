@@ -52,10 +52,6 @@ render(data); // "My name is June. I'm a girl."
 (new Function(render_raw))(data); // "My name is June. I'm a girl."
 ```
 
-## Notice
-
-Some grammar features have not been implemented. If you need, propose an issue please.
-
 ## More
 
 * [velocity](http://velocity.apache.org/)
