@@ -52,6 +52,16 @@ render(data); // "My name is June. I'm a girl."
 (new Function(render_raw))(data); // "My name is June. I'm a girl."
 ```
 
+## Directives
+
+Name | Usage | Example
+:---: | :--- | :---
+if | Condition | #if($a) a #elseif($b) b #else c #end
+foreach | Loop | #foreach($item in $list) $velocityCount: $item #end
+set | Assign a variable, declaring it at the same time if not exist | #set($a = 1)
+define | Define a variable as a block of VTL | #define($a) $name is $gender #end $a
+macro | Define a functional directive as a macro of VTL | #macro(a $name $gender) $name is $gender #end #a("Tom" "male")
+
 ## More
 
 * [velocity](http://velocity.apache.org/)
