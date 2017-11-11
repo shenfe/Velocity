@@ -56,11 +56,11 @@ render(data); // "My name is June. I'm a girl."
 
 Name | Usage | Example
 :---: | :--- | :---
-if | Condition | #if($a) a #elseif($b) b #else c #end
-foreach | Loop | #foreach($item in $list) $velocityCount: $item #end
-set | Assign a variable, declaring it at the same time if not exist | #set($a = 1)
-define | Define a variable as a block of VTL | #define($a) $name is $gender #end $a
-macro | Define a functional directive as a macro of VTL | #macro(a $name $gender) $name is $gender #end #a("Tom" "male")
+if | Condition. | `#if($a) a #elseif($b) b #else c #end`
+foreach | Loop. | `#foreach($item in $list) $velocityCount: $item #end`
+set | Assign a variable, declaring it at the same time if not exist. | `#set($a = 1)`
+define | Define a variable as a block of VTL. | `#set($name = "Tom") #set($gender = "male") #define($a) $name is $gender #end $a`
+macro | Define a functional directive as a macro of VTL. | `#macro(a $name $gender) $name is $gender #end #a("Tom" "male")`
 
 ## More
 
