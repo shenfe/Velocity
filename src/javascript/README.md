@@ -30,6 +30,15 @@ var data = {
 window.velocity.render(tmpl, data); // "My name is June. I'm a girl."
 ```
 
+Additionally, there is a third parameter, an `options` object.
+
+| Option Property | Meaning |
+| :---: | :--- |
+| tmplId | A string or function representing the uniqueness of the template. For caching. |
+| dataId | A function which accepts the data and returns the unique id string of the data. For caching. |
+| noCache | Whether disable caching or not. |
+
+
 ### compiling a template to a function
 
 Method `compile` compiles a vts to a pure function or a string of pure function body (to be written into files).
