@@ -15,7 +15,7 @@ npm install --save velocity-template-engine
 
 The module contains methods `render` and `compile`, both of which can be used as pure functions.
 
-### rendering a template
+### 🎨 rendering a template
 
 Method `render` combines a velocity template string (`vts` below for short) and a data object, returning a string.
 
@@ -30,7 +30,7 @@ let data = {
 window.velocity.render(tmpl, data); // "My name is June. I'm a girl."
 ```
 
-### caching
+### ♻️ caching
 
 Additionally, there is a third parameter for the `render` method, which is an `options` object.
 
@@ -58,7 +58,7 @@ for (let i = 0; i < 1000000; i++) {
 }
 ```
 
-### compiling a template to a function
+### 📰 compiling a template to a function
 
 Method `compile` compiles a vts to a pure function or a string of pure function body (to be written into files).
 
