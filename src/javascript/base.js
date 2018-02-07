@@ -466,6 +466,25 @@ var executorFactory = function () {
 
 var _vlct = this['velocity'];
 
+var detectNodejs = (function () {
+    return Object.prototype.toString.call(typeof process !== 'undefined' ? process : 0) === '[object process]';
+})();
+
+var CacheMan = function () {
+    var data = {};
+    this.set = function (key, val) {
+        data[key] = val;
+        return this;
+    };
+    this.get = function (key) {
+        return data[key];
+    };
+    this.reset = function () {
+        data = {};
+        return this;
+    };
+};
+
 var expo = {
     context: function (data) {
         var context = executorFactory();
@@ -520,15 +539,84 @@ var expo = {
         
         this.reset(data);
     },
-    render: function (tmpl, data) {
+    render: (function () {
+        var tmplCaches = new CacheMan();
+        var resultCaches = new CacheMan();
+        var tmplDataKey = function (tmplId, dataId) {
+            return JSON.stringify({
+                tmpl: tmplId,
+                data: dataId
+            });
+        };
+        return function (tmpl, data, options) {
+            options = options || {};
+            var noCache = !!options.noCache;
+            if (noCache) {
+                return this.compile(tmpl, options)(data);
+            }
+
+            var dataId = typeof options.dataId;
+            if (dataId === 'string' || dataId === 'function') {
+                if (dataId === 'string') {
+                    dataId = options.dataId;
+                } else {
+                    dataId = options.dataId.call(data, data);
+                }
+            } else {
+                dataId = null;
+            }
+
+            var tmplId = typeof options.tmplId;
+            if (tmplId === 'string' || tmplId === 'function') {
+                if (tmplId === 'string') {
+                    tmplId = options.tmplId;
+                } else {
+                    tmplId = options.tmplId(tmpl);
+                }
+                if (dataId != null) {
+                    var tdk = tmplDataKey(tmplId, dataId);
+                    if (resultCaches.get(tdk)) return resultCaches.get(tdk);
+                }
+                if (!tmpl) {
+                    if (tmplCaches.get(tmplId)) {
+                        tmpl = tmplCaches.get(tmplId);
+                    } else {
+                        if (detectNodejs) {
+                            var fs = require('fs');
+                            tmpl = fs.readFileSync(tmplId, 'utf8');
+                        } else {
+                            var el = window.document.getElementById(tmplId);
+                            tmpl = el.value || el.innerHTML;
+                        }
+                        tmpl = this.compile(tmpl, options);
+                        tmplCaches.set(tmplId, tmpl);
+                    }
+                } else {
+                    tmpl = this.compile(tmpl, options);
+                    tmplCaches.set(tmplId, tmpl);
+                }
+            } else {
+                tmplId = '[TMPL_STR]' + tmpl;
+                if (dataId != null) {
+                    var tdk = tmplDataKey(tmplId, dataId);
+                    if (resultCaches.get(tdk)) return resultCaches.get(tdk);
+                }
+                if (tmplCaches.get(tmplId)) {
+                    tmpl = tmplCaches.get(tmplId);
+                } else {
+                    tmpl = this.compile(tmpl, options);
+                    tmplCaches.set(tmplId, tmpl);
+                }
+            }
+
+            var re = tmpl(data);
+            (tmplId && dataId) && resultCaches.set(tmplDataKey(tmplId, dataId), re);
+            return re;
+        };
+    })(),
+    compile: function (tmpl, options) {
         var root = _vlct.parse(tmpl);
-        var render = executorFactory();
-        render.scope = data || {};
-        return render.run(root);
-    },
-    compile: function (tmpl, opt) {
-        var root = _vlct.parse(tmpl);
-        if (opt && (opt === true || opt.raw)) {
+        if (options && (options === true || options.raw)) {
             // var findNodeType = function (nodeStr, type) {
             //     return (nodeStr.indexOf('"$":"' + type + '"') > 0);
             // };
