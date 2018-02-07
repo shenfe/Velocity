@@ -30,7 +30,9 @@ let data = {
 window.velocity.render(tmpl, data); // "My name is June. I'm a girl."
 ```
 
-Additionally, there is a third parameter, an `options` object.
+### caching
+
+Additionally, there is a third parameter for the `render` method, which is an `options` object.
 
 | Option Property | Meaning |
 | :---: | :--- |
