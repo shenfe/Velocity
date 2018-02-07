@@ -22,8 +22,8 @@ Method `render` combines a velocity template string (`vts` below for short) and 
 Example:
 
 ```js
-var tmpl = 'My name is ${name}. I\'m a #if($gender == "male")boy#{else}girl#end.';
-var data = {
+let tmpl = 'My name is ${name}. I\'m a #if($gender == "male")boy#{else}girl#end.';
+let data = {
     name: 'June',
     gender: 'female'
 };
@@ -34,10 +34,27 @@ Additionally, there is a third parameter, an `options` object.
 
 | Option Property | Meaning |
 | :---: | :--- |
-| tmplId | A string or function representing the uniqueness of the template. For caching. |
+| tmplId | A string or function representing the uniqueness of the template. For caching. The template string would be used if it was undefined. |
 | dataId | A function which accepts the data and returns the unique id string of the data. For caching. |
 | noCache | Whether disable caching or not. |
 
+Example:
+
+```js
+let tmpl = 'My name is ${name}. I\'m a #if($gender == "male")boy#{else}girl#end.';
+let tmplName = 'user-desc';
+for (let i = 0; i < 1000000; i++) {
+    let data = {
+        time: Date.now(),
+        name: 'June',
+        gender: 'female'
+    };
+    window.velocity.render(tmpl, data, {
+        tmplId: tmplName,
+        dataId: user => Math.floor(user.time / 1000)
+    });
+}
+```
 
 ### compiling a template to a function
 
@@ -46,13 +63,13 @@ Method `compile` compiles a vts to a pure function or a string of pure function 
 Example:
 
 ```js
-var tmpl = 'My name is ${name}. I\'m a #if($gender == "male")boy#{else}girl#end.';
-var render = window.velocity.compile(tmpl);
+let tmpl = 'My name is ${name}. I\'m a #if($gender == "male")boy#{else}girl#end.';
+let render = window.velocity.compile(tmpl);
 
 // The second argument is options, and the `raw` property indicates whether to compile the vts to a string or not.
-var render_raw = window.velocity.compile(tmpl, { raw: true });
+let render_raw = window.velocity.compile(tmpl, { raw: true });
 
-var data = {
+let data = {
     name: 'June',
     gender: 'female'
 };
