@@ -10,7 +10,7 @@ This is a JavaScript implementation of [Apache Velocity](http://velocity.apache.
 ## Quick Start
 
 ```bash
-npm install --save velocity-template-engine
+$ npm install --save velocity-template-engine
 ```
 
 The module contains methods `render` and `compile`, both of which can be used as pure functions.
