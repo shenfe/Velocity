@@ -1,6 +1,6 @@
 <h1 align="center">Velocity模板引擎</h1>
 
-[>> JavaScript Version Only <<](./src/javascript)
+[>> JavaScript版本 <<](./src/javascript)
 
 Velocity模板引擎，JavaScript和PHP两个版本。Apache官方Java版本见[velocity.apache.org](http://velocity.apache.org/)。
 
