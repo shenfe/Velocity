@@ -98,14 +98,14 @@ echo $ve->render('path/to/template3.vm', $data, true); // 渲染模板和数据�
 `/test/*/run.sh` | 各语言版本的测试运行脚本。
 `/test/*/output/*.html` | 各语言版本的TestRunner的输出，每个输出文件对应一个case。
 
-## More
+## 相关工作
 
 * [velocity](http://velocity.apache.org/)
 * [pegjs](https://github.com/pegjs/pegjs)
 * [phpegjs](https://github.com/nylen/phpegjs)
 
-## License
+## 协议
 
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2017-present, [shenfe](https://github.com/shenfe)
+Copyright © 2017-present, [shenfe](https://github.com/shenfe)
