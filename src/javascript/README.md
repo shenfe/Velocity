@@ -58,6 +58,8 @@ for (let i = 0; i < 1000000; i++) {
 }
 ```
 
+> Note: you must be clearly aware of what you are doing, since the cached data amount must be in control.
+
 ### 📰 compiling a template to a function
 
 Method `compile` compiles a vts to a pure function or a string of pure function body (to be written into files).
