@@ -1,0 +1,8 @@
+#set ($arr = [1, 2, 3])
+#set ($t = {})
+
+#foreach ($item in $arr)
+    #set ($t[$item] = $item)
+#end
+
+$t

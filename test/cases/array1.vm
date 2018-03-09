@@ -1,0 +1,6 @@
+#set($q = [0..10])
+#foreach($j in [0..10])
+#set($p[$j] = $j + 1)
+#end
+
+$q

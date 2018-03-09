@@ -1,0 +1,10 @@
+#set($p = {})
+#foreach($i in [0..10])
+#set($p['i'] = $i + 1)
+#end
+
+$p.keySet()
+
+#foreach($i in $p.keySet())
+$p[$i]
+#end
