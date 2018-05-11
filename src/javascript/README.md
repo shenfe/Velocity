@@ -44,9 +44,8 @@ Example:
 
 ```js
 let tmpl = 'My name is ${name}. I\'m a #if($gender == "male")boy#{else}girl#end.';
-let tmplName = 'user-desc';
-let tmplOpt = {
-    tmplId: tmplName,
+let opts = {
+    tmplId: 'user-desc',
     dataId: user => Math.floor(user.time / 1000)
 };
 for (let i = 0; i < 1000000; i++) {
@@ -55,7 +54,7 @@ for (let i = 0; i < 1000000; i++) {
         name: 'June',
         gender: 'female'
     };
-    window.velocity.render(tmpl, data, tmplOpt);
+    window.velocity.render(tmpl, data, opts);
 }
 ```
 
