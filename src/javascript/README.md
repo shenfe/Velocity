@@ -58,7 +58,7 @@ for (let i = 0; i < 1000000; i++) {
 }
 ```
 
-> Note: you must be clearly aware of what you are doing, since the cached data amount must be in control.
+> Note: you must clearly know what you are doing, because the cache data's amount must be in control.
 
 ### 📰 compiling a template to a function
 
