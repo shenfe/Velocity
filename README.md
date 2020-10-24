@@ -1,4 +1,4 @@
-<h1 align="center">Velocity Template Engine</h1>
+<h1 align="center">Velocity Template Engine, as a DSL Interpreter across Multi- Languages</h1>
 
 [中文文档](https://github.com/shenfe/Velocity/blob/master/README-zh_CN.md)
 
